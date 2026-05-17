@@ -7,6 +7,8 @@
   <meta name="description" content="Panel administracyjny do zarządzania treścią strony i zapytaniami klientów.">
   <meta name="robots" content="noindex,nofollow">
   <link rel="icon" type="image/png" href="./favicon.png">
+  <script src="./app-config.js"></script>
+  <script src="./cloud-sync.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="importmap">
@@ -26,7 +28,21 @@
     import React from "react";
     import { createRoot } from "react-dom/client";
 
+    async function setupCloudSync() {
+      const cloud = window.RR2Cloud;
+      if (!cloud || !cloud.isConfigured()) return;
+
+      const session = await cloud.ensureAdminSessionWithPrompt();
+      if (!session) {
+        throw new Error("Logowanie administratora zostało anulowane.");
+      }
+
+      await cloud.pullKeysToLocalStorage(cloud.keys.sync, { useAuth: true });
+      cloud.enableLocalStorageAutoSync();
+    }
+
     async function mountCms() {
+      await setupCloudSync();
       const response = await fetch("./cms.js");
       const source = await response.text();
       const transformed = Babel.transform(source, {

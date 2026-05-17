@@ -99,6 +99,20 @@ function hydrateSeasonMenuFromStorage() {
   menuGrid.innerHTML = menuMarkup;
 }
 
+async function hydrateSeasonMenuFromCloud() {
+  const cloud = window.RR2Cloud;
+  if (!cloud || !cloud.isConfigured()) return;
+
+  try {
+    const menuState = await cloud.getKey(CMS_MENU_KEY, { useAuth: false });
+    if (!Array.isArray(menuState) || menuState.length === 0) return;
+    window.localStorage.setItem(CMS_MENU_KEY, JSON.stringify(menuState));
+    hydrateSeasonMenuFromStorage();
+  } catch (error) {
+    // Keep local/offline fallback if cloud is unavailable.
+  }
+}
+
 function formatMessageDate(date) {
   const day = String(date.getDate()).padStart(2, "0");
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -127,6 +141,12 @@ function persistContactMessage(formData) {
     const existingMessages = Array.isArray(parsed) ? parsed : [];
     existingMessages.unshift(message);
     window.localStorage.setItem(CMS_MESSAGES_KEY, JSON.stringify(existingMessages));
+    const cloud = window.RR2Cloud;
+    if (cloud && cloud.isConfigured()) {
+      cloud.appendMessage(message).catch(() => {
+        // Keep local success even if network sync fails.
+      });
+    }
     return true;
   } catch (error) {
     return false;
@@ -184,6 +204,7 @@ if (hero) {
 const seasonMenuSection = document.querySelector(".season-menu");
 const seasonMenuSearch = document.querySelector(".js-menu-search");
 hydrateSeasonMenuFromStorage();
+hydrateSeasonMenuFromCloud();
 const seasonMenuCategories = Array.from(
   document.querySelectorAll(".js-menu-category"),
 );

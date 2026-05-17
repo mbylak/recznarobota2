@@ -154,13 +154,34 @@
     return path.split(".").reduce((acc, segment) => (acc ? acc[segment] : undefined), object);
   }
 
-  function readContent() {
+  async function readCloudKey(key) {
+    const cloud = window.RR2Cloud;
+    if (!cloud || !cloud.isConfigured()) return null;
     try {
-      const raw = window.localStorage.getItem(CMS_CONTENT_KEY);
-      const baseContent = raw
-        ? deepMerge(DEFAULT_CONTENT, JSON.parse(raw))
-        : DEFAULT_CONTENT;
-      return mergeLegacySettings(baseContent);
+      return await cloud.getKey(key, { useAuth: false });
+    } catch (error) {
+      return null;
+    }
+  }
+
+  async function readContent() {
+    try {
+      const cloudContent = await readCloudKey(CMS_CONTENT_KEY);
+      const localRaw = window.localStorage.getItem(CMS_CONTENT_KEY);
+      const localContent = localRaw ? JSON.parse(localRaw) : null;
+      const baseSource = cloudContent || localContent;
+      const baseContent = baseSource ? deepMerge(DEFAULT_CONTENT, baseSource) : DEFAULT_CONTENT;
+
+      if (cloudContent) {
+        window.localStorage.setItem(CMS_CONTENT_KEY, JSON.stringify(cloudContent));
+      }
+
+      const cloudSettings = await readCloudKey(CMS_SETTINGS_KEY);
+      if (cloudSettings) {
+        window.localStorage.setItem(CMS_SETTINGS_KEY, JSON.stringify(cloudSettings));
+      }
+
+      return mergeLegacySettings(baseContent, cloudSettings);
     } catch (error) {
       return DEFAULT_CONTENT;
     }
@@ -172,11 +193,9 @@
     return digits.startsWith("+") ? `tel:${digits}` : `tel:+${digits}`;
   }
 
-  function mergeLegacySettings(content) {
+  function mergeLegacySettings(content, providedSettings = null) {
     try {
-      const rawSettings = window.localStorage.getItem(CMS_SETTINGS_KEY);
-      if (!rawSettings) return content;
-      const parsedSettings = JSON.parse(rawSettings);
+      const parsedSettings = providedSettings || JSON.parse(window.localStorage.getItem(CMS_SETTINGS_KEY) || "null");
       if (!isObject(parsedSettings)) return content;
 
       const merged = JSON.parse(JSON.stringify(content));
@@ -223,8 +242,14 @@
     }
   }
 
-  function readBlogPosts() {
+  async function readBlogPosts() {
     try {
+      const cloudPosts = await readCloudKey(CMS_BLOG_KEY);
+      if (Array.isArray(cloudPosts)) {
+        window.localStorage.setItem(CMS_BLOG_KEY, JSON.stringify(cloudPosts));
+        return cloudPosts;
+      }
+
       const raw = window.localStorage.getItem(CMS_BLOG_KEY);
       if (!raw) return DEFAULT_BLOG_POSTS;
       const parsed = JSON.parse(raw);
@@ -297,9 +322,14 @@
     });
   }
 
-  const content = readContent();
-  applyContent(content);
-  renderBlogPreview(readBlogPosts());
+  async function initCmsRuntime() {
+    const content = await readContent();
+    const posts = await readBlogPosts();
+    applyContent(content);
+    renderBlogPreview(posts);
+  }
+
+  initCmsRuntime();
 
   window.RR2CMS = {
     CMS_CONTENT_KEY,
