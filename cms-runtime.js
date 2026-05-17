@@ -2,6 +2,7 @@
   const CMS_CONTENT_KEY = "rr2_cms_content_v1";
   const CMS_BLOG_KEY = "rr2_cms_blog_v1";
   const CMS_SETTINGS_KEY = "rr2_cms_settings";
+  const CMS_GALLERY_KEY = "rr2_cms_gallery";
 
   const DEFAULT_CONTENT = {
     index: {
@@ -13,6 +14,27 @@
         primaryCtaHref: "#menu",
         secondaryCtaLabel: "Zarezerwuj stolik",
         secondaryCtaHref: "#kontakt",
+      },
+      about: {
+        title: "O nas",
+        lead1: "Ręczna Robota 2.0 Wodnik to nowe miejsce na kulinarnej mapie Nieporętu. Powstał z miłości do dobrego jedzenia, wspaniałej atmosfery i niezwykłych widoków.",
+        lead2: "Znajdziesz nas w porcie Wodnik - tu, gdzie Jezioro Zegrzyńskie prezentuje się najpiękniej.",
+        buttonLabel: "Dowiedz się więcej",
+        buttonHref: "./o-nas.html",
+      },
+      aboutSlider: {
+        slide1: {
+          src: "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1400&q=80",
+          alt: "Burger serwowany w restauracji",
+        },
+        slide2: {
+          src: "https://images.unsplash.com/photo-1520072959219-c595dc870360?auto=format&fit=crop&w=1200&q=80",
+          alt: "Kolorowa sałatka podana w misce",
+        },
+        slide3: {
+          src: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1200&q=80",
+          alt: "Pizza z dodatkami podana na drewnianym blacie",
+        },
       },
       menu: {
         note: "Menu obowiązuje przez cały sezon letni, jesteśmy czynni od wtorku do soboty w godz. 12:00 - 21:00, a w niedzielę 12:00 - 20:00.",
@@ -48,6 +70,10 @@
       },
     },
     about: {
+      media: {
+        heroImageSrc: "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1400&q=80",
+        heroImageAlt: "Danie serwowane w Ręczna Robota 2.0 Wodnik",
+      },
       intro: {
         eyebrow: "Ręczna Robota 2.0 Wodnik",
         title: "Miejsce, które smakuje latem",
@@ -269,15 +295,21 @@
       node.textContent = value;
     });
 
-    const hrefNodes = document.querySelectorAll("[data-cms-attr-href]");
-    hrefNodes.forEach((node) => {
-      const hrefKey = node.dataset.cmsAttrHref;
-      if (hrefKey) {
-        const value = getByPath(content, hrefKey);
-        if (typeof value === "string" && value.trim().length > 0) {
-          node.setAttribute("href", value);
-        }
-      }
+    const attributeMappings = [
+      { datasetKey: "cmsAttrHref", attribute: "href" },
+      { datasetKey: "cmsAttrSrc", attribute: "src" },
+      { datasetKey: "cmsAttrAlt", attribute: "alt" },
+    ];
+
+    attributeMappings.forEach(({ datasetKey, attribute }) => {
+      const selector = `[data-${datasetKey.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`)}]`;
+      document.querySelectorAll(selector).forEach((node) => {
+        const contentKey = node.dataset[datasetKey];
+        if (!contentKey) return;
+        const value = getByPath(content, contentKey);
+        if (typeof value !== "string" || value.trim().length === 0) return;
+        node.setAttribute(attribute, value);
+      });
     });
   }
 
@@ -325,6 +357,10 @@
   async function initCmsRuntime() {
     const content = await readContent();
     const posts = await readBlogPosts();
+    const cloudGallery = await readCloudKey(CMS_GALLERY_KEY);
+    if (Array.isArray(cloudGallery)) {
+      window.localStorage.setItem(CMS_GALLERY_KEY, JSON.stringify(cloudGallery));
+    }
     applyContent(content);
     renderBlogPreview(posts);
   }

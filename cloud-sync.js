@@ -2,6 +2,7 @@
   const CLOUD_STATE_KEY = "rr2_supabase_session_v1";
   const CMS_KV_TABLE = "cms_kv";
   const CLOUD_SYNC_KEYS = [
+    "rr2_cms_content_v1",
     "rr2_cms_settings",
     "rr2_cms_menu_v2",
     "rr2_cms_blog_v1",

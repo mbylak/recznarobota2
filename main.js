@@ -5,6 +5,7 @@ const heroNav = document.querySelector(".hero .nav");
 const pagePreloader = document.querySelector("#page-preloader");
 const CMS_MESSAGES_KEY = "rr2_cms_messages";
 const CMS_MENU_KEY = "rr2_cms_menu_v2";
+const CMS_GALLERY_KEY = "rr2_cms_gallery";
 
 function escapeHtml(value) {
   return String(value)
@@ -113,6 +114,35 @@ async function hydrateSeasonMenuFromCloud() {
   }
 }
 
+function hydrateGalleryFromStorage() {
+  const galleryRoot = document.querySelector(".js-gallery");
+  if (!galleryRoot) return;
+
+  try {
+    const raw = window.localStorage.getItem(CMS_GALLERY_KEY);
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed) || parsed.length === 0) return;
+
+    const galleryItemsMarkup = parsed
+      .filter((url) => typeof url === "string" && url.trim().length > 0)
+      .map((url, index) => `
+        <img
+          class="gallery-item js-gallery-item"
+          src="${escapeHtml(url)}"
+          alt="Zdjęcie galerii ${index + 1}"
+          loading="lazy"
+        >
+      `)
+      .join("");
+
+    if (galleryItemsMarkup.trim().length === 0) return;
+    galleryRoot.innerHTML = galleryItemsMarkup;
+  } catch (error) {
+    // Keep original gallery if local data is invalid.
+  }
+}
+
 function formatMessageDate(date) {
   const day = String(date.getDate()).padStart(2, "0");
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -205,6 +235,7 @@ const seasonMenuSection = document.querySelector(".season-menu");
 const seasonMenuSearch = document.querySelector(".js-menu-search");
 hydrateSeasonMenuFromStorage();
 hydrateSeasonMenuFromCloud();
+hydrateGalleryFromStorage();
 const seasonMenuCategories = Array.from(
   document.querySelectorAll(".js-menu-category"),
 );

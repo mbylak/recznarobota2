@@ -30,6 +30,116 @@ const INITIAL_CONTENT = {
   }
 };
 
+const INITIAL_EDITOR_CONTENT = {
+  index: {
+    hero: {
+      eyebrow: "Bar nad jeziorem zegrzyńskim",
+      title: "Smak lata nad Zegrzem",
+      lead: "Pyszne jedzenie, orzeźwiające napoje i najlepszy widok na Zalew Zegrzyński. Witaj w Ręczna Robota 2.0 Wodnik!",
+      primaryCtaLabel: "Zobacz menu",
+      primaryCtaHref: "#menu",
+      secondaryCtaLabel: "Zarezerwuj stolik",
+      secondaryCtaHref: "#kontakt",
+    },
+    about: {
+      title: "O nas",
+      lead1: "Ręczna Robota 2.0 Wodnik to nowe miejsce na kulinarnej mapie Nieporętu. Powstał z miłości do dobrego jedzenia, wspaniałej atmosfery i niezwykłych widoków.",
+      lead2: "Znajdziesz nas w porcie Wodnik - tu, gdzie Jezioro Zegrzyńskie prezentuje się najpiękniej.",
+      buttonLabel: "Dowiedz się więcej",
+      buttonHref: "./o-nas.html",
+    },
+    aboutSlider: {
+      slide1: {
+        src: "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1400&q=80",
+        alt: "Burger serwowany w restauracji",
+      },
+      slide2: {
+        src: "https://images.unsplash.com/photo-1520072959219-c595dc870360?auto=format&fit=crop&w=1200&q=80",
+        alt: "Kolorowa sałatka podana w misce",
+      },
+      slide3: {
+        src: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1200&q=80",
+        alt: "Pizza z dodatkami podana na drewnianym blacie",
+      },
+    },
+    menu: {
+      note: "Menu obowiązuje przez cały sezon letni, jesteśmy czynni od wtorku do soboty w godz. 12:00 - 21:00, a w niedzielę 12:00 - 20:00.",
+      phoneLabel: "+48 123 456 789",
+      phoneHref: "tel:+48123456789",
+    },
+    hours: {
+      monday: "Zamknięte",
+      tuesday: "12:00 - 21:00",
+      wednesday: "12:00 - 21:00",
+      thursday: "12:00 - 21:00",
+      friday: "12:00 - 21:00",
+      saturday: "12:00 - 21:00",
+      sunday: "12:00 - 20:00",
+      note: "Zapraszamy od wtorku do niedzieli!",
+    },
+    footer: {
+      company: "Ręczna Robota 2.0 Wodnik",
+      phone: "+48 123 456 789",
+      phoneHref: "tel:+48123456789",
+      email: "kontakt@recznarobota2.pl",
+      emailHref: "mailto:kontakt@recznarobota2.pl",
+    },
+  },
+  about: {
+    media: {
+      heroImageSrc: "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1400&q=80",
+      heroImageAlt: "Danie serwowane w Ręczna Robota 2.0 Wodnik",
+    },
+    intro: {
+      eyebrow: "Ręczna Robota 2.0 Wodnik",
+      title: "Miejsce, które smakuje latem",
+      lead1: "Jesteśmy restauracją w porcie Wodnik, stworzoną dla tych, którzy lubią dobrą kuchnię i swobodny klimat nad wodą. Łączymy lokalne smaki, sezonowe produkty i luźną atmosferę.",
+      lead2: "U nas możesz wpaść na szybki lunch po rejsie, rodzinny obiad albo wieczór z przyjaciółmi. Każdego dnia pracujemy nad tym, żeby było smacznie, sprawnie i po prostu przyjemnie.",
+      primaryCtaLabel: "Zobacz aktualne menu",
+      primaryCtaHref: "./index.html#menu",
+      secondaryCtaLabel: "Otwórz dojazd w Google Maps",
+      secondaryCtaHref: "https://maps.app.goo.gl/abhgKGvzsiDdfsXc9",
+    },
+    story: {
+      title: "Jak wygląda wizyta u nas",
+      card1: {
+        title: "Wpadasz bez spiny",
+        text: "Nie musisz planować tygodniami. Wystarczy telefon albo spontaniczna decyzja i już jesteś na miejscu.",
+      },
+      card2: {
+        title: "Zamawiasz po swojemu",
+        text: "Od klasyków po lżejsze opcje - menu jest ułożone tak, żeby każdy znalazł coś dla siebie.",
+      },
+      card3: {
+        title: "Zostajesz dla klimatu",
+        text: "Widok na wodę i spokojny rytm portu sprawiają, że często zostaje się u nas dłużej niż planowano.",
+      },
+    },
+    facts: {
+      title: "Co warto wiedzieć przed wizytą",
+      item1: "Gotujemy od wtorku do soboty 12:00 - 21:00, w niedzielę do 20:00.",
+      item2: "Największy ruch mamy w sobotę między 15:00 a 18:00.",
+      item3: "Najlepiej rezerwować stolik na większe grupy i wieczorne spotkania.",
+      item4: "W menu regularnie pojawiają się sezonowe nowości i pozycje limitowane.",
+    },
+    faq: {
+      title: "Najczęstsze pytania",
+      q1: "Czy można przyjść bez rezerwacji?",
+      a1: "Tak, zapraszamy również bez rezerwacji. W godzinach szczytu warto jednak zadzwonić wcześniej.",
+      q2: "Czy macie opcje dla dzieci?",
+      a2: "Tak, menu zawiera pozycje chętnie wybierane przez najmłodszych. Obsługa podpowie najlepszy wybór.",
+      q3: "Jak najłatwiej do Was trafić?",
+      a3: "Najwygodniej skorzystać z nawigacji Google Maps - pinezka prowadzi bezpośrednio do portu Wodnik.",
+    },
+    cta: {
+      title: "Wpadnij do nas i poczuj klimat portu",
+      description: "Jeśli chcesz, podpowiemy od czego najlepiej zacząć i co dziś poleca kuchnia.",
+      buttonLabel: "Nawiguj do restauracji",
+      buttonHref: "https://maps.app.goo.gl/abhgKGvzsiDdfsXc9",
+    },
+  },
+};
+
 const INITIAL_MENU = [
   {
     id: 'cat-1',
@@ -166,6 +276,33 @@ const splitLegacyItemName = (rawName = '') => {
   };
 };
 
+const isObject = (value) => value && typeof value === 'object' && !Array.isArray(value);
+
+const deepMerge = (base, custom) => {
+  if (!isObject(base) || !isObject(custom)) return custom ?? base;
+  const result = { ...base };
+  Object.keys(custom).forEach((key) => {
+    result[key] = deepMerge(base[key], custom[key]);
+  });
+  return result;
+};
+
+const getByPath = (object, path) => path.split('.').reduce((acc, segment) => (acc ? acc[segment] : undefined), object);
+
+const setByPath = (target, path, value) => {
+  const parts = path.split('.');
+  let cursor = target;
+  parts.forEach((segment, index) => {
+    const isLast = index === parts.length - 1;
+    if (isLast) {
+      cursor[segment] = value;
+      return;
+    }
+    if (!isObject(cursor[segment])) cursor[segment] = {};
+    cursor = cursor[segment];
+  });
+};
+
 const getItemDisplayParts = (item) => {
   const title = String(item?.name || '').trim();
   const subtitle = typeof item?.subtitle === 'string' ? item.subtitle.trim() : '';
@@ -185,6 +322,7 @@ export default function CMSAdminApp() {
 
   // Stany Danych
   const [content, setContent] = useState(INITIAL_CONTENT);
+  const [editorContent, setEditorContent] = useState(INITIAL_EDITOR_CONTENT);
   const [menu, setMenu] = useState(INITIAL_MENU);
   const [blog, setBlog] = useState(INITIAL_BLOG);
   const [messages, setMessages] = useState(INITIAL_MESSAGES);
@@ -205,6 +343,7 @@ export default function CMSAdminApp() {
       }
     };
     loadData('rr2_cms_settings', setContent, INITIAL_CONTENT);
+    loadData('rr2_cms_content_v1', (value) => setEditorContent(deepMerge(INITIAL_EDITOR_CONTENT, value || {})), INITIAL_EDITOR_CONTENT);
     loadData('rr2_cms_menu_v2', setMenu, INITIAL_MENU);
     loadData('rr2_cms_blog_v1', setBlog, INITIAL_BLOG);
     loadData('rr2_cms_messages', setMessages, INITIAL_MESSAGES);
@@ -213,6 +352,7 @@ export default function CMSAdminApp() {
 
   // Zapisywanie do localStorage
   useEffect(() => { localStorage.setItem('rr2_cms_settings', JSON.stringify(content)); }, [content]);
+  useEffect(() => { localStorage.setItem('rr2_cms_content_v1', JSON.stringify(editorContent)); }, [editorContent]);
   useEffect(() => { localStorage.setItem('rr2_cms_menu_v2', JSON.stringify(menu)); }, [menu]);
   useEffect(() => { localStorage.setItem('rr2_cms_blog_v1', JSON.stringify(blog)); }, [blog]);
   useEffect(() => { localStorage.setItem('rr2_cms_messages', JSON.stringify(messages)); }, [messages]);
@@ -223,6 +363,7 @@ export default function CMSAdminApp() {
   const NAVIGATION = [
     { id: 'dashboard', label: 'Pulpit', icon: Home },
     { id: 'messages', label: 'Wiadomości', icon: MessageSquare, badge: unreadCount },
+    { id: 'editor', label: 'Edytor', icon: FileText },
     { id: 'menu', label: 'Menu', icon: Utensils },
     { id: 'blog', label: 'Wpisy', icon: FileText },
     { id: 'gallery', label: 'Galeria', icon: ImageIcon },
@@ -233,6 +374,7 @@ export default function CMSAdminApp() {
     switch (activeTab) {
       case 'dashboard': return <DashboardTab messages={messages} blog={blog} unreadCount={unreadCount} setActiveTab={setActiveTab} alert={content.alert} />;
       case 'messages': return <MessagesTab messages={messages} setMessages={setMessages} />;
+      case 'editor': return <EditorTab content={editorContent} setContent={setEditorContent} gallery={gallery} setGallery={setGallery} />;
       case 'menu': return <MenuTab menu={menu} setMenu={setMenu} phone={content.contact.phone} />;
       case 'blog': return <BlogTab blog={blog} setBlog={setBlog} />;
       case 'gallery': return <GalleryTab gallery={gallery} setGallery={setGallery} />;
@@ -301,7 +443,7 @@ export default function CMSAdminApp() {
 
       {/* Mobile Bottom Nav */}
       <nav className="md:hidden fixed bottom-0 w-full bg-white border-t border-slate-200 flex justify-around items-center pb-safe pt-1 px-2 z-20 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] no-print">
-        {NAVIGATION.filter(item => ['dashboard', 'menu', 'blog', 'settings'].includes(item.id)).map((item) => (
+        {NAVIGATION.filter(item => ['dashboard', 'editor', 'menu', 'settings'].includes(item.id)).map((item) => (
           <button
             key={item.id}
             onClick={() => setActiveTab(item.id)}
@@ -339,7 +481,8 @@ export default function CMSAdminApp() {
             <div className="p-2">
               {[
                 { id: 'messages', label: 'Wiadomości', icon: MessageSquare, badge: unreadCount },
-                { id: 'gallery', label: 'Galeria', icon: ImageIcon }
+                { id: 'gallery', label: 'Galeria', icon: ImageIcon },
+                { id: 'blog', label: 'Wpisy', icon: FileText }
               ].map(item => (
                 <button
                   key={item.id}
@@ -507,6 +650,216 @@ function MessagesTab({ messages, setMessages }) {
           </div>
         )}
       </div>
+    </div>
+  );
+}
+
+function EditorTab({ content, setContent, gallery, setGallery }) {
+  const [newGalleryUrl, setNewGalleryUrl] = useState('');
+
+  const homepageAboutFields = [
+    { path: 'index.about.title', label: 'Tytuł sekcji "O nas" (strona główna)' },
+    { path: 'index.about.lead1', label: 'Opis 1 sekcji "O nas"' },
+    { path: 'index.about.lead2', label: 'Opis 2 sekcji "O nas"' },
+    { path: 'index.about.buttonLabel', label: 'Etykieta przycisku "O nas"' },
+    { path: 'index.about.buttonHref', label: 'Link przycisku "O nas"' },
+  ];
+
+  const aboutPageFields = [
+    { path: 'about.intro.eyebrow', label: 'O nas -> Intro -> Eyebrow' },
+    { path: 'about.intro.title', label: 'O nas -> Intro -> Tytuł' },
+    { path: 'about.intro.lead1', label: 'O nas -> Intro -> Opis 1' },
+    { path: 'about.intro.lead2', label: 'O nas -> Intro -> Opis 2' },
+    { path: 'about.intro.primaryCtaLabel', label: 'O nas -> Intro -> CTA główne (tekst)' },
+    { path: 'about.intro.primaryCtaHref', label: 'O nas -> Intro -> CTA główne (link)' },
+    { path: 'about.intro.secondaryCtaLabel', label: 'O nas -> Intro -> CTA pomocnicze (tekst)' },
+    { path: 'about.intro.secondaryCtaHref', label: 'O nas -> Intro -> CTA pomocnicze (link)' },
+    { path: 'about.story.title', label: 'O nas -> Sekcja "Jak wygląda wizyta" -> Tytuł' },
+    { path: 'about.story.card1.title', label: 'Karta 1 -> Tytuł' },
+    { path: 'about.story.card1.text', label: 'Karta 1 -> Treść' },
+    { path: 'about.story.card2.title', label: 'Karta 2 -> Tytuł' },
+    { path: 'about.story.card2.text', label: 'Karta 2 -> Treść' },
+    { path: 'about.story.card3.title', label: 'Karta 3 -> Tytuł' },
+    { path: 'about.story.card3.text', label: 'Karta 3 -> Treść' },
+    { path: 'about.facts.title', label: 'Sekcja "Co warto wiedzieć" -> Tytuł' },
+    { path: 'about.facts.item1', label: 'Sekcja "Co warto wiedzieć" -> Punkt 1' },
+    { path: 'about.facts.item2', label: 'Sekcja "Co warto wiedzieć" -> Punkt 2' },
+    { path: 'about.facts.item3', label: 'Sekcja "Co warto wiedzieć" -> Punkt 3' },
+    { path: 'about.facts.item4', label: 'Sekcja "Co warto wiedzieć" -> Punkt 4' },
+    { path: 'about.faq.title', label: 'FAQ -> Tytuł' },
+    { path: 'about.faq.q1', label: 'FAQ -> Pytanie 1' },
+    { path: 'about.faq.a1', label: 'FAQ -> Odpowiedź 1' },
+    { path: 'about.faq.q2', label: 'FAQ -> Pytanie 2' },
+    { path: 'about.faq.a2', label: 'FAQ -> Odpowiedź 2' },
+    { path: 'about.faq.q3', label: 'FAQ -> Pytanie 3' },
+    { path: 'about.faq.a3', label: 'FAQ -> Odpowiedź 3' },
+    { path: 'about.cta.title', label: 'Końcowe CTA -> Tytuł' },
+    { path: 'about.cta.description', label: 'Końcowe CTA -> Opis' },
+    { path: 'about.cta.buttonLabel', label: 'Końcowe CTA -> Przycisk (tekst)' },
+    { path: 'about.cta.buttonHref', label: 'Końcowe CTA -> Przycisk (link)' },
+  ];
+
+  const sliderFields = [
+    { srcPath: 'index.aboutSlider.slide1.src', altPath: 'index.aboutSlider.slide1.alt', label: 'Slider "O nas" - zdjęcie 1' },
+    { srcPath: 'index.aboutSlider.slide2.src', altPath: 'index.aboutSlider.slide2.alt', label: 'Slider "O nas" - zdjęcie 2' },
+    { srcPath: 'index.aboutSlider.slide3.src', altPath: 'index.aboutSlider.slide3.alt', label: 'Slider "O nas" - zdjęcie 3' },
+  ];
+
+  const updateField = (path, value) => {
+    setContent((prev) => {
+      const next = JSON.parse(JSON.stringify(prev || {}));
+      setByPath(next, path, value);
+      return next;
+    });
+  };
+
+  const moveGalleryItem = (index, direction) => {
+    setGallery((prev) => {
+      const target = index + direction;
+      if (target < 0 || target >= prev.length) return prev;
+      const next = [...prev];
+      [next[index], next[target]] = [next[target], next[index]];
+      return next;
+    });
+  };
+
+  const addGalleryImage = (event) => {
+    event.preventDefault();
+    const safeUrl = newGalleryUrl.trim();
+    if (!safeUrl) return;
+    setGallery((prev) => [safeUrl, ...prev]);
+    setNewGalleryUrl('');
+  };
+
+  const removeGalleryItem = (index) => {
+    setGallery((prev) => prev.filter((_, itemIndex) => itemIndex !== index));
+  };
+
+  return (
+    <div className="space-y-8 animate-in fade-in no-print">
+      <div>
+        <h2 className="text-3xl font-['Playfair_Display'] font-bold text-[#0a1c3a]">Edytor sekcji</h2>
+        <p className="text-slate-500 mt-1">Tutaj właściciel może edytować treści i zdjęcia dla strony głównej oraz podstrony O nas.</p>
+      </div>
+
+      <section className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-5">
+        <h3 className="text-2xl font-['Playfair_Display'] font-bold text-[#0a1c3a]">Strona główna → O nas</h3>
+        <div className="grid grid-cols-1 gap-4">
+          {homepageAboutFields.map((field) => (
+            <label key={field.path} className="form-label">
+              {field.label}
+              <textarea
+                rows={field.path.includes('Href') ? 2 : 3}
+                className="form-input mt-2"
+                value={String(getByPath(content, field.path) || '')}
+                onChange={(event) => updateField(field.path, event.target.value)}
+              />
+            </label>
+          ))}
+        </div>
+      </section>
+
+      <section className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-5">
+        <h3 className="text-2xl font-['Playfair_Display'] font-bold text-[#0a1c3a]">Strona główna → Slider w sekcji O nas</h3>
+        <div className="grid grid-cols-1 gap-5">
+          {sliderFields.map((field) => (
+            <div key={field.srcPath} className="border border-slate-200 rounded-xl p-4 space-y-3">
+              <p className="font-bold text-[#0a1c3a]">{field.label}</p>
+              <label className="form-label">
+                URL zdjęcia
+                <input
+                  type="url"
+                  className="form-input mt-2"
+                  value={String(getByPath(content, field.srcPath) || '')}
+                  onChange={(event) => updateField(field.srcPath, event.target.value)}
+                />
+              </label>
+              <label className="form-label">
+                Opis ALT
+                <input
+                  type="text"
+                  className="form-input mt-2"
+                  value={String(getByPath(content, field.altPath) || '')}
+                  onChange={(event) => updateField(field.altPath, event.target.value)}
+                />
+              </label>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-5">
+        <h3 className="text-2xl font-['Playfair_Display'] font-bold text-[#0a1c3a]">Strona główna → Galeria</h3>
+        <form onSubmit={addGalleryImage} className="flex flex-col md:flex-row gap-3">
+          <input
+            type="url"
+            value={newGalleryUrl}
+            onChange={(event) => setNewGalleryUrl(event.target.value)}
+            placeholder="Wklej URL nowego zdjęcia..."
+            className="form-input flex-1"
+          />
+          <button type="submit" className="btn-primary whitespace-nowrap">Dodaj zdjęcie</button>
+        </form>
+        <div className="grid grid-cols-1 gap-3">
+          {gallery.map((url, index) => (
+            <div key={`${url}-${index}`} className="border border-slate-200 rounded-xl p-3 flex flex-col md:flex-row md:items-center gap-3">
+              <input
+                type="url"
+                value={url}
+                onChange={(event) => {
+                  const value = event.target.value;
+                  setGallery((prev) => prev.map((item, itemIndex) => (itemIndex === index ? value : item)));
+                }}
+                className="form-input flex-1"
+              />
+              <div className="flex gap-2">
+                <button type="button" className="btn-secondary" onClick={() => moveGalleryItem(index, -1)}>Wyżej</button>
+                <button type="button" className="btn-secondary" onClick={() => moveGalleryItem(index, 1)}>Niżej</button>
+                <button type="button" className="btn-secondary" onClick={() => removeGalleryItem(index)}>Usuń</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-5">
+        <h3 className="text-2xl font-['Playfair_Display'] font-bold text-[#0a1c3a]">Podstrona O nas → Zdjęcie główne</h3>
+        <label className="form-label">
+          URL zdjęcia głównego
+          <input
+            type="url"
+            className="form-input mt-2"
+            value={String(getByPath(content, 'about.media.heroImageSrc') || '')}
+            onChange={(event) => updateField('about.media.heroImageSrc', event.target.value)}
+          />
+        </label>
+        <label className="form-label">
+          Opis ALT zdjęcia głównego
+          <input
+            type="text"
+            className="form-input mt-2"
+            value={String(getByPath(content, 'about.media.heroImageAlt') || '')}
+            onChange={(event) => updateField('about.media.heroImageAlt', event.target.value)}
+          />
+        </label>
+      </section>
+
+      <section className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-5">
+        <h3 className="text-2xl font-['Playfair_Display'] font-bold text-[#0a1c3a]">Podstrona O nas → Treści</h3>
+        <div className="grid grid-cols-1 gap-4">
+          {aboutPageFields.map((field) => (
+            <label key={field.path} className="form-label">
+              {field.label}
+              <textarea
+                rows={field.path.includes('Href') ? 2 : 3}
+                className="form-input mt-2"
+                value={String(getByPath(content, field.path) || '')}
+                onChange={(event) => updateField(field.path, event.target.value)}
+              />
+            </label>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
