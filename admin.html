@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel administracyjny | Ręczna Robota 2.0 Wodnik</title>
+  <meta name="description" content="Panel administracyjny do zarządzania treścią strony i zapytaniami klientów.">
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="icon" type="image/png" href="./favicon.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@18.2.0",
+        "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+        "lucide-react": "https://esm.sh/lucide-react@0.408.0?external=react"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script type="module">
+    import React from "react";
+    import { createRoot } from "react-dom/client";
+
+    async function mountCms() {
+      const response = await fetch("./cms.js");
+      const source = await response.text();
+      const transformed = Babel.transform(source, {
+        presets: ["react"],
+        sourceType: "module",
+      }).code;
+
+      const moduleUrl = URL.createObjectURL(
+        new Blob([transformed], { type: "text/javascript" }),
+      );
+
+      try {
+        const cmsModule = await import(moduleUrl);
+        const CMSAdminApp = cmsModule.default;
+        const root = createRoot(document.getElementById("app"));
+        root.render(React.createElement(CMSAdminApp));
+      } finally {
+        URL.revokeObjectURL(moduleUrl);
+      }
+    }
+
+    mountCms().catch((error) => {
+      const target = document.getElementById("app");
+      if (target) {
+        target.innerHTML = `
+          <main style="font-family: system-ui, sans-serif; padding: 24px; max-width: 900px; margin: 0 auto;">
+            <h1 style="margin: 0 0 12px;">Nie udało się uruchomić panelu administracyjnego</h1>
+            <p>Sprawdź konsolę przeglądarki (F12), aby zobaczyć szczegóły błędu.</p>
+            <pre style="background:#f5f5f5; padding:12px; border-radius:8px; overflow:auto;">${String(error)}</pre>
+          </main>
+        `;
+      }
+      console.error(error);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ręczna Robota 2.0 Wodnik</title>
+  <meta name="description" content="Bar nad Jeziorem Zegrzyńskim - pyszne jedzenie, zimne napoje i najlepszy widok.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Lato:wght@400;600;700&family=Open+Sans:wght@400;600;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="./favicon.png">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="is-preloading">
+  <div class="page-preloader" id="page-preloader" role="status" aria-live="polite" aria-label="Ładowanie strony">
+    <img class="page-preloader-logo" src="./logo.png" alt="Ręczna Robota 2.0 Wodnik">
+    <div class="page-preloader-spinner" aria-hidden="true"></div>
+  </div>
+  <header class="hero" id="top">
+    <div class="hero-bg" aria-hidden="true">
+      <video
+        class="hero-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        poster="./hero.webp"
+      >
+        <source src="./Projekt bez nazwy.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="container">
+      <nav class="nav">
+        <div class="nav-inner">
+          <a class="brand" href="#top">
+            <img class="brand-logo" src="./logo.png" alt="Ręczna Robota 2.0 Wodnik">
+          </a>
+          <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-menu">
+            ☰
+          </button>
+          <div class="menu" id="main-menu">
+            <a class="active" href="#top">Strona główna</a>
+            <a href="#o-nas">O nas</a>
+            <a href="#galeria">Galeria</a>
+            <a href="#menu">Menu</a>
+            <a href="#wpisy">Wpisy</a>
+            <a href="#kontakt">Kontakt</a>
+          </div>
+          <a class="btn btn-dark desktop-only btn-header-menu js-header-menu-btn" href="#menu">
+            <img class="btn-inline-icon" src="./assets/icons/utensils.svg" alt="" aria-hidden="true">
+            Zobacz menu
+          </a>
+        </div>
+      </nav>
+
+      <div class="hero-content">
+        <p class="eyebrow" data-cms="index.hero.eyebrow">Bar nad jeziorem zegrzyńskim</p>
+        <h1 class="title-script title-underline" data-cms="index.hero.title">Smak lata nad Zegrzem</h1>
+        <p class="lead" data-cms="index.hero.lead">
+          Pyszne jedzenie, orzeźwiające napoje i najlepszy widok na Zalew Zegrzyński.
+          Witaj w Ręczna Robota 2.0 Wodnik!
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-red hero-menu-cta js-hero-menu-cta" href="#menu" data-cms="index.hero.primaryCtaLabel" data-cms-attr-href="index.hero.primaryCtaHref">Zobacz menu</a>
+          <a class="btn btn-light" href="#kontakt" data-cms="index.hero.secondaryCtaLabel" data-cms-attr-href="index.hero.secondaryCtaHref">Zarezerwuj stolik</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="features-wrap">
+    <div class="container">
+      <div class="features">
+        <article>
+          <img class="feature-icon" src="./assets/icons/water.svg" alt="" aria-hidden="true">
+          <h3>Nad wodą</h3>
+          <p>Wyjątkowa lokalizacja w porcie Wodnik</p>
+        </article>
+        <article>
+          <img class="feature-icon" src="./assets/icons/utensils.svg" alt="" aria-hidden="true">
+          <h3>Pyszne jedzenie</h3>
+          <p>Świeże składniki i autorskie dania</p>
+        </article>
+        <article>
+          <img class="feature-icon" src="./assets/icons/martini-glass-citrus.svg" alt="" aria-hidden="true">
+          <h3>Zimne napoje</h3>
+          <p>Orzeźwiające drinki, piwa i lemoniady</p>
+        </article>
+        <article>
+          <img class="feature-icon" src="./assets/icons/umbrella-beach.svg" alt="" aria-hidden="true">
+          <h3>Relaks i klimat</h3>
+          <p>Idealne miejsce na odpoczynek z rodziną i przyjaciółmi</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="about section" id="o-nas">
+    <div class="container about-grid">
+      <div class="about-content">
+        <h2 class="title-script title-underline">O nas</h2>
+        <p>
+          Ręczna Robota 2.0 Wodnik to nowe miejsce na kulinarnej mapie Nieporętu.
+          Powstał z miłości do dobrego jedzenia, wspaniałej atmosfery i niezwykłych widoków.
+        </p>
+        <p>
+          Znajdziesz nas w porcie Wodnik - tu, gdzie Jezioro Zegrzyńskie prezentuje się najpiękniej.
+        </p>
+        <a class="btn btn-outline" href="./o-nas.html">Dowiedz się więcej</a>
+      </div>
+      <div class="about-photo">
+        <div class="about-slider js-about-slider" data-autoplay-ms="4500" aria-label="Galeria potraw">
+          <figure class="about-slide is-active">
+            <img
+              class="about-slider-image"
+              src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1400&q=80"
+              alt="Burger serwowany w restauracji"
+            >
+          </figure>
+          <figure class="about-slide">
+            <img
+              class="about-slider-image"
+              src="https://images.unsplash.com/photo-1520072959219-c595dc870360?auto=format&fit=crop&w=1200&q=80"
+              alt="Kolorowa sałatka podana w misce"
+              loading="lazy"
+            >
+          </figure>
+          <figure class="about-slide">
+            <img
+              class="about-slider-image"
+              src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1200&q=80"
+              alt="Pizza z dodatkami podana na drewnianym blacie"
+              loading="lazy"
+            >
+          </figure>
+
+          <button class="about-slider-control prev js-about-prev" type="button" aria-label="Poprzednie zdjęcie">
+            <span aria-hidden="true">&lsaquo;</span>
+          </button>
+          <button class="about-slider-control next js-about-next" type="button" aria-label="Następne zdjęcie">
+            <span aria-hidden="true">&rsaquo;</span>
+          </button>
+
+          <div class="about-slider-dots" role="tablist" aria-label="Wybierz zdjęcie potrawy">
+            <button class="about-slider-dot is-active js-about-dot" type="button" role="tab" aria-selected="true" aria-label="Zdjęcie 1" data-slide-index="0"></button>
+            <button class="about-slider-dot js-about-dot" type="button" role="tab" aria-selected="false" aria-label="Zdjęcie 2" data-slide-index="1"></button>
+            <button class="about-slider-dot js-about-dot" type="button" role="tab" aria-selected="false" aria-label="Zdjęcie 3" data-slide-index="2"></button>
+          </div>
+        </div>
+        <div class="photo-badge">
+          <img class="photo-badge-icon" src="./pieczatka.png" alt="" aria-hidden="true">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="gallery-section section" id="galeria">
+    <div class="container">
+      <div class="gallery-head">
+        <h2 class="title-script title-underline">Zobacz naszą galerię</h2>
+        <div class="gallery-controls js-gallery-controls">
+          <button class="gallery-control js-gallery-prev" type="button" aria-label="Poprzednie zdjęcia">
+            <span aria-hidden="true">&lsaquo;</span>
+          </button>
+          <button class="gallery-control js-gallery-next" type="button" aria-label="Kolejne zdjęcia">
+            <span aria-hidden="true">&rsaquo;</span>
+          </button>
+        </div>
+      </div>
+      <div class="gallery js-gallery" aria-live="polite">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80" alt="Widok na marinę">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=1200&q=80" alt="Pomost nad jeziorem">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1482192597420-4818b0b6f802?auto=format&fit=crop&w=1200&q=80" alt="Zachód słońca nad wodą">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1200&q=80" alt="Taras lokalu wieczorem">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1200&q=80" alt="Drewniany pomost nad spokojną wodą">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80" alt="Zielona okolica i ścieżka spacerowa przy jeziorze">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80" alt="Widok na wodę i niebo o złotej godzinie">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?auto=format&fit=crop&w=1200&q=80" alt="Letni klimat nad wodą z łagodnym światłem zachodu">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80" alt="Łodzie zacumowane w marinie">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80" alt="Panorama jeziora i nieba w słoneczny dzień">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1493558103817-58b2924bce98?auto=format&fit=crop&w=1200&q=80" alt="Taras restauracyjny przy wodzie">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=1200&q=80" alt="Wieczorne światła odbijające się w wodzie">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1493244040629-496f6d136cc3?auto=format&fit=crop&w=1200&q=80" alt="Brzeg jeziora otoczony zielenią">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80" alt="Widok na wodę o poranku">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1200&q=80" alt="Fale jeziora przy zachodzie słońca">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=1200&q=80" alt="Pomost i krajobraz jeziora o złotej godzinie">
+      </div>
+    </div>
+  </section>
+
+  <section class="season-menu section" id="menu">
+    <div class="container">
+      <h2 class="title-script title-underline">Menu</h2>
+      <p class="season-menu-note">
+        <span class="season-menu-note-line">
+          <span data-cms="index.menu.note">
+            Menu obowiązuje przez cały sezon letni, jesteśmy czynni od wtorku do soboty w godz. 12:00 - 21:00, a w niedzielę 12:00 - 20:00.
+          </span>
+        </span>
+        <span class="season-menu-note-phone-line">
+          Telefon: <a class="season-menu-phone" href="tel:+48123456789" data-cms="index.menu.phoneLabel" data-cms-attr-href="index.menu.phoneHref">+48 123 456 789</a>
+        </span>
+      </p>
+      <div class="season-menu-toolbar">
+        <label class="season-menu-search-label" for="menu-search">Szukaj w menu</label>
+        <input
+          id="menu-search"
+          class="season-menu-search js-menu-search"
+          type="search"
+          placeholder="Np. pizza, lemoniada, schabowy..."
+          autocomplete="off"
+        >
+      </div>
+
+      <div class="season-menu-grid">
+        <div class="season-menu-column js-menu-column">
+          <article class="menu-category js-menu-category" data-category-name="Zupy">
+            <button class="menu-category-toggle js-menu-category-toggle" type="button" aria-expanded="true">
+              <span class="menu-category-heading">
+                <span class="menu-category-emoji" aria-hidden="true">🍲</span>
+                Zupy
+              </span>
+              <span class="menu-category-chevron" aria-hidden="true"></span>
+            </button>
+            <ul class="season-menu-list">
+              <li data-menu-item><span>Żurek z białą kiełbasą, podgrzybkami i jajkiem</span><strong>18 zł</strong></li>
+              <li data-menu-item><span>Pomidorowa z makaronem</span><strong>15 zł</strong></li>
+            </ul>
+          </article>
+
+          <article class="menu-category js-menu-category" data-category-name="Dania główne">
+            <button class="menu-category-toggle js-menu-category-toggle" type="button" aria-expanded="true">
+              <span class="menu-category-heading">
+                <span class="menu-category-emoji" aria-hidden="true">🍽️</span>
+                Dania główne
+              </span>
+              <span class="menu-category-chevron" aria-hidden="true"></span>
+            </button>
+            <ul class="season-menu-list">
+              <li data-menu-item><span>Schabowy, ziemniaki z koperkiem, kapusta zasmażana</span><strong>38 zł</strong></li>
+              <li data-menu-item><span>Grillowana pierś z kurczaka, frytki, tzatziki, surówka</span><strong>37 zł</strong></li>
+              <li data-menu-item><span>Sandacz 180 g, opiekane ziemniaki, blanszowany szpinak</span><strong>57 zł</strong></li>
+              <li data-menu-item><span>Pieczona karkówka, sos pieczarkowy, kopytka, surówka</span><strong>39 zł</strong></li>
+              <li data-menu-item><span>Frytki</span><strong>12 zł</strong></li>
+              <li data-menu-item><span>Frytki z parmezanem</span><strong>15 zł</strong></li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="season-menu-column js-menu-column">
+          <article class="menu-category js-menu-category" data-category-name="Pizza 32 cm">
+            <button class="menu-category-toggle js-menu-category-toggle" type="button" aria-expanded="true">
+              <span class="menu-category-heading">
+                <span class="menu-category-emoji" aria-hidden="true">🍕</span>
+                Pizza 32 cm
+              </span>
+              <span class="menu-category-chevron" aria-hidden="true"></span>
+            </button>
+            <ul class="season-menu-list">
+              <li data-menu-item><span>Salame picante (sos pomidorowy, mozzarella, szpinata, ricotta, papryka)</span><strong>42 zł</strong></li>
+              <li data-menu-item><span>Cotto funghi (sos pomidorowy, mozzarella, szynka cotto, pieczarki, rukola)</span><strong>37 zł</strong></li>
+              <li data-menu-item><span>Amatriciana (sos pomidorowy, mozzarella, boczek, czosnek, cebula, piri-piri)</span><strong>39 zł</strong></li>
+              <li data-menu-item><span>Diavola (sos pomidorowy, mozzarella, spianata, jalapeno)</span><strong>41 zł</strong></li>
+              <li data-menu-item><span>Margherita (sos pomidorowy, mozzarella, bazylia)</span><strong>31 zł</strong></li>
+              <li data-menu-item><span>Hawajska (sos pomidorowy, mozzarella, szynka, ananas)</span><strong>36 zł</strong></li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="season-menu-column js-menu-column">
+          <article class="menu-category js-menu-category" data-category-name="Napoje">
+            <button class="menu-category-toggle js-menu-category-toggle" type="button" aria-expanded="true">
+              <span class="menu-category-heading">
+                <span class="menu-category-emoji" aria-hidden="true">🥤</span>
+                Napoje
+              </span>
+              <span class="menu-category-chevron" aria-hidden="true"></span>
+            </button>
+            <ul class="season-menu-list">
+              <li data-menu-item><span>Cola, Cola Zero, Fanta, Sprite, sok jabłkowy 0,25 l</span><strong>9 zł</strong></li>
+              <li data-menu-item><span>Cola 0,5 l</span><strong>18 zł</strong></li>
+              <li data-menu-item><span>Woda niegazowana / gazowana 0,3 l</span><strong>9 zł</strong></li>
+              <li data-menu-item><span>Woda z cytryną 0,5 l</span><strong>12 zł</strong></li>
+              <li data-menu-item><span>Lemoniada cytrynowa 0,3 l</span><strong>13 zł</strong></li>
+            </ul>
+          </article>
+
+          <article class="menu-category js-menu-category" data-category-name="Napoje ciepłe">
+            <button class="menu-category-toggle js-menu-category-toggle" type="button" aria-expanded="true">
+              <span class="menu-category-heading">
+                <span class="menu-category-emoji" aria-hidden="true">☕</span>
+                Napoje ciepłe
+              </span>
+              <span class="menu-category-chevron" aria-hidden="true"></span>
+            </button>
+            <ul class="season-menu-list">
+              <li data-menu-item><span>Espresso</span><strong>5 zł</strong></li>
+              <li data-menu-item><span>Espresso doppio</span><strong>8 zł</strong></li>
+              <li data-menu-item><span>Americano</span><strong>9 zł</strong></li>
+              <li data-menu-item><span>Mleko</span><strong>2 zł</strong></li>
+              <li data-menu-item><span>Cappuccino</span><strong>12 zł</strong></li>
+              <li data-menu-item><span>Caffe latte</span><strong>13 zł</strong></li>
+              <li data-menu-item><span>Herbata</span><strong>7 zł</strong></li>
+            </ul>
+          </article>
+
+          <article class="menu-category js-menu-category" data-category-name="Piwo butelkowe">
+            <button class="menu-category-toggle js-menu-category-toggle" type="button" aria-expanded="true">
+              <span class="menu-category-heading">
+                <span class="menu-category-emoji" aria-hidden="true">🍾</span>
+                Piwo butelkowe
+              </span>
+              <span class="menu-category-chevron" aria-hidden="true"></span>
+            </button>
+            <ul class="season-menu-list">
+              <li data-menu-item><span>Świeże</span><strong>15 zł</strong></li>
+              <li data-menu-item><span>Jungle IPA</span><strong>18 zł</strong></li>
+              <li data-menu-item><span>Śmietka pszeniczne</span><strong>17 zł</strong></li>
+              <li data-menu-item><span>Budwiser</span><strong>14 zł</strong></li>
+            </ul>
+          </article>
+
+          <article class="menu-category js-menu-category" data-category-name="Piwo z nalewaka">
+            <button class="menu-category-toggle js-menu-category-toggle" type="button" aria-expanded="true">
+              <span class="menu-category-heading">
+                <span class="menu-category-emoji" aria-hidden="true">🍺</span>
+                Piwo z nalewaka
+              </span>
+              <span class="menu-category-chevron" aria-hidden="true"></span>
+            </button>
+            <ul class="season-menu-list">
+              <li data-menu-item><span>Żywiec</span><strong>14 zł</strong></li>
+            </ul>
+          </article>
+
+          <article class="menu-category js-menu-category" data-category-name="Piwo bezalkoholowe">
+            <button class="menu-category-toggle js-menu-category-toggle" type="button" aria-expanded="true">
+              <span class="menu-category-heading">
+                <span class="menu-category-emoji" aria-hidden="true">🧃</span>
+                Piwo bezalkoholowe
+              </span>
+              <span class="menu-category-chevron" aria-hidden="true"></span>
+            </button>
+            <ul class="season-menu-list">
+              <li data-menu-item><span>Korona 0% 0,33 l</span><strong>12 zł</strong></li>
+              <li data-menu-item><span>Bavaria 0% 0,33 l</span><strong>12 zł</strong></li>
+              <li data-menu-item><span>Żywiec Białe 0% 0,5 l</span><strong>15 zł</strong></li>
+            </ul>
+          </article>
+
+          <article class="menu-category js-menu-category" data-category-name="Wino">
+            <button class="menu-category-toggle js-menu-category-toggle" type="button" aria-expanded="true">
+              <span class="menu-category-heading">
+                <span class="menu-category-emoji" aria-hidden="true">🍷</span>
+                Wino
+              </span>
+              <span class="menu-category-chevron" aria-hidden="true"></span>
+            </button>
+            <ul class="season-menu-list">
+              <li data-menu-item><span>Wino białe domowe 150 ml</span><strong>11 zł</strong></li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="hours section-dark" id="godziny-otwarcia">
+    <div class="container hours-grid">
+      <div>
+        <h2 class="title-script title-underline">Godziny<br>otwarcia</h2>
+        <ul class="hours-list">
+          <li><span>Poniedziałek</span><strong data-cms="index.hours.monday">Zamknięte</strong></li>
+          <li><span>Wtorek</span><strong data-cms="index.hours.tuesday">12:00 - 21:00</strong></li>
+          <li><span>Środa</span><strong data-cms="index.hours.wednesday">12:00 - 21:00</strong></li>
+          <li><span>Czwartek</span><strong data-cms="index.hours.thursday">12:00 - 21:00</strong></li>
+          <li><span>Piątek</span><strong data-cms="index.hours.friday">12:00 - 21:00</strong></li>
+          <li><span>Sobota</span><strong data-cms="index.hours.saturday">12:00 - 21:00</strong></li>
+          <li><span>Niedziela</span><strong data-cms="index.hours.sunday">12:00 - 20:00</strong></li>
+        </ul>
+        <p class="daily-note">
+          <img class="daily-note-icon" src="./assets/icons/anchor.svg" alt="" aria-hidden="true">
+          <span data-cms="index.hours.note">Zapraszamy od wtorku do niedzieli!</span>
+        </p>
+      </div>
+      <div>
+        <h2 class="title-script title-underline">Dojazd</h2>
+        <div class="hours-map-wrap">
+          <iframe
+            class="hours-map"
+            title="Lokalizacja Ręczna Robota 2.0 Wodnik"
+            src="https://www.google.com/maps?q=Port%20Wodnik%2C%20ul.%20Zegrzy%C5%84ska%2010%2C%2005-126%20Niepor%C4%99t&output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="blog-teaser section" id="wpisy">
+    <div class="container">
+      <div class="blog-teaser-head">
+        <h2 class="title-script title-underline">Wpisy</h2>
+        <p>Aktualności z kuchni, wydarzeń i życia naszej restauracji nad Zegrzem.</p>
+      </div>
+      <div class="blog-teaser-list js-blog-preview"></div>
+      <p class="blog-teaser-empty js-blog-empty">Brak zapowiedzi wpisów. Dodaj je w panelu CMS.</p>
+    </div>
+  </section>
+
+  <section class="contact section" id="kontakt">
+    <div class="container contact-grid">
+      <div class="contact-copy">
+        <h2 class="title-script title-underline">Napisz do nas</h2>
+        <p>
+          Masz pytanie o rezerwację, organizację wydarzenia albo nasze menu?
+          Wypełnij formularz, a odezwiemy się tak szybko, jak to możliwe.
+        </p>
+        <ul class="contact-highlights">
+          <li>Rezerwacje stolików i większych grup</li>
+          <li>Zapytania o imprezy okolicznościowe</li>
+          <li>Współpraca i wydarzenia sezonowe</li>
+        </ul>
+      </div>
+      <form class="contact-form js-contact-form" action="#" method="post">
+        <div class="contact-field">
+          <label for="contact-name">Imię i nazwisko</label>
+          <input id="contact-name" name="name" type="text" autocomplete="name" required>
+        </div>
+        <div class="contact-row">
+          <div class="contact-field">
+            <label for="contact-email">Adres e-mail</label>
+            <input id="contact-email" name="email" type="email" autocomplete="email" required>
+          </div>
+          <div class="contact-field">
+            <label for="contact-phone">Telefon</label>
+            <input id="contact-phone" name="phone" type="tel" autocomplete="tel" placeholder="+48 123 456 789">
+          </div>
+        </div>
+        <div class="contact-field">
+          <label for="contact-message">Wiadomość</label>
+          <textarea id="contact-message" name="message" rows="5" required placeholder="Napisz, w czym możemy pomóc..."></textarea>
+        </div>
+        <div class="contact-form-actions">
+          <button class="btn btn-red" type="submit">Wyślij wiadomość</button>
+          <p class="contact-form-note js-contact-form-note" aria-live="polite"></p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <div class="brand small">
+          <img class="brand-logo footer-logo" src="./logo.png" alt="Ręczna Robota 2.0 Wodnik">
+        </div>
+      </div>
+      <div>
+        <h4 data-cms="index.footer.company">Ręczna Robota 2.0 Wodnik</h4>
+        <p>Port Wodnik<br>ul. Zegrzyńska 10<br>05-126 Nieporęt</p>
+      </div>
+      <div>
+        <p>
+          <a class="footer-contact-item" href="tel:+48123456789" data-cms-attr-href="index.footer.phoneHref">
+            <img class="footer-contact-icon" src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/telephone-fill.svg" alt="" aria-hidden="true">
+            <span data-cms="index.footer.phone">+48 123 456 789</span>
+          </a>
+        </p>
+        <p>
+          <a class="footer-contact-item" href="mailto:kontakt@recznarobota2.pl" data-cms-attr-href="index.footer.emailHref">
+            <img class="footer-contact-icon" src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/envelope-fill.svg" alt="" aria-hidden="true">
+            <span data-cms="index.footer.email">kontakt@recznarobota2.pl</span>
+          </a>
+        </p>
+        <p>
+          <a class="footer-contact-item" href="https://www.facebook.com/recznarobota2.wodnik" target="_blank" rel="noopener noreferrer">
+            <img class="footer-contact-icon" src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/facebook.svg" alt="" aria-hidden="true">
+            <span>/recznarobota2.wodnik</span>
+          </a>
+        </p>
+      </div>
+      <div>
+        <h4>Szybkie linki</h4>
+        <p><a href="#top">Strona główna</a></p>
+        <p><a href="#menu">Menu</a></p>
+        <p><a href="#wpisy">Wpisy</a></p>
+        <p><a href="#galeria">Galeria</a></p>
+        <p><a href="#kontakt">Kontakt</a></p>
+      </div>
+      <div class="footer-note">
+        Do zobaczenia<br>nad wodą!
+      </div>
+    </div>
+    <div class="copyright">© <span class="js-current-year">2026</span> Ręczna Robota 2.0 Wodnik. Wszelkie prawa zastrzeżone.</div>
+  </footer>
+
+  <script src="./cms-runtime.js"></script>
+  <script src="./main.js"></script>
+  <script src="./site.js"></script>
+</body>
+</html>
