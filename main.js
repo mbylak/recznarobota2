@@ -98,6 +98,7 @@ function hydrateSeasonMenuFromStorage() {
     .join("");
 
   menuGrid.innerHTML = menuMarkup;
+  window.dispatchEvent(new CustomEvent("rr2:season-menu-updated"));
 }
 
 async function hydrateSeasonMenuFromCloud() {
@@ -236,12 +237,6 @@ const seasonMenuSearch = document.querySelector(".js-menu-search");
 hydrateSeasonMenuFromStorage();
 hydrateSeasonMenuFromCloud();
 hydrateGalleryFromStorage();
-const seasonMenuCategories = Array.from(
-  document.querySelectorAll(".js-menu-category"),
-);
-const seasonMenuColumns = Array.from(
-  document.querySelectorAll(".js-menu-column"),
-);
 const aboutSlider = document.querySelector(".js-about-slider");
 const gallery = document.querySelector(".js-gallery");
 const galleryItems = Array.from(document.querySelectorAll(".js-gallery-item"));
@@ -331,11 +326,18 @@ if (aboutSlider) {
   startAutoplay();
 }
 
-if (seasonMenuSection && seasonMenuCategories.length) {
+if (seasonMenuSection) {
   const mobileMenuMq = window.matchMedia("(max-width: 1080px)");
+  const getSeasonMenuCategories = () => Array.from(
+    seasonMenuSection.querySelectorAll(".js-menu-category"),
+  );
+  const getSeasonMenuColumns = () => Array.from(
+    seasonMenuSection.querySelectorAll(".js-menu-column"),
+  );
 
   const setMobileMode = (isMobile) => {
     seasonMenuSection.classList.toggle("is-mobile", isMobile);
+    const seasonMenuCategories = getSeasonMenuCategories();
 
     seasonMenuCategories.forEach((category) => {
       const toggle = category.querySelector(".js-menu-category-toggle");
@@ -353,6 +355,8 @@ if (seasonMenuSection && seasonMenuCategories.length) {
 
   const applyMenuFilter = () => {
     const query = (seasonMenuSearch?.value ?? "").trim().toLowerCase();
+    const seasonMenuCategories = getSeasonMenuCategories();
+    const seasonMenuColumns = getSeasonMenuColumns();
 
     seasonMenuCategories.forEach((category) => {
       const toggle = category.querySelector(".js-menu-category-toggle");
@@ -385,15 +389,18 @@ if (seasonMenuSection && seasonMenuCategories.length) {
     });
   };
 
-  seasonMenuCategories.forEach((category) => {
-    const toggle = category.querySelector(".js-menu-category-toggle");
-    if (!toggle) return;
+  seasonMenuSection.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+    const toggle = target.closest(".js-menu-category-toggle");
+    if (!toggle || !seasonMenuSection.contains(toggle)) return;
+    if (!mobileMenuMq.matches) return;
 
-    toggle.addEventListener("click", () => {
-      if (!mobileMenuMq.matches) return;
-      const isOpen = category.classList.toggle("is-open");
-      toggle.setAttribute("aria-expanded", String(isOpen));
-    });
+    const category = toggle.closest(".js-menu-category");
+    if (!category) return;
+
+    const isOpen = category.classList.toggle("is-open");
+    toggle.setAttribute("aria-expanded", String(isOpen));
   });
 
   const onViewportChange = (event) => {
@@ -411,6 +418,10 @@ if (seasonMenuSection && seasonMenuCategories.length) {
   }
 
   seasonMenuSearch?.addEventListener("input", applyMenuFilter);
+  window.addEventListener("rr2:season-menu-updated", () => {
+    setMobileMode(mobileMenuMq.matches);
+    applyMenuFilter();
+  });
 }
 
 if (gallery && galleryItems.length) {
