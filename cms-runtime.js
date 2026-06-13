@@ -243,13 +243,38 @@
     }
   }
 
+  function mergeBlogPosts(storedPosts) {
+    const stored = Array.isArray(storedPosts) ? storedPosts : [];
+    const storedById = new Map();
+    stored.forEach((post) => {
+      if (post && typeof post === "object" && post.id) {
+        storedById.set(post.id, post);
+      }
+    });
+
+    // Domyślne wpisy z kodu są zawsze widoczne; zapisana wersja (jeśli istnieje)
+    // może je nadpisać, a dodatkowe niestandardowe wpisy dokładamy na końcu.
+    const merged = DEFAULT_BLOG_POSTS.map((defaultPost) => {
+      const override = storedById.get(defaultPost.id);
+      return override ? { ...defaultPost, ...override } : defaultPost;
+    });
+
+    const extras = stored.filter(
+      (post) =>
+        post &&
+        typeof post === "object" &&
+        (!post.id || !DEFAULT_BLOG_POSTS.some((defaultPost) => defaultPost.id === post.id)),
+    );
+
+    return [...merged, ...extras];
+  }
+
   function readLocalBlogPosts() {
     try {
       const raw = window.localStorage.getItem(CMS_BLOG_KEY);
       if (!raw) return DEFAULT_BLOG_POSTS;
       const parsed = JSON.parse(raw);
-      if (!Array.isArray(parsed)) return DEFAULT_BLOG_POSTS;
-      return parsed;
+      return mergeBlogPosts(parsed);
     } catch (error) {
       return DEFAULT_BLOG_POSTS;
     }
@@ -340,14 +365,13 @@
       const cloudPosts = await readCloudKey(CMS_BLOG_KEY);
       if (Array.isArray(cloudPosts)) {
         window.localStorage.setItem(CMS_BLOG_KEY, JSON.stringify(cloudPosts));
-        return cloudPosts;
+        return mergeBlogPosts(cloudPosts);
       }
 
       const raw = window.localStorage.getItem(CMS_BLOG_KEY);
       if (!raw) return DEFAULT_BLOG_POSTS;
       const parsed = JSON.parse(raw);
-      if (!Array.isArray(parsed)) return DEFAULT_BLOG_POSTS;
-      return parsed;
+      return mergeBlogPosts(parsed);
     } catch (error) {
       return DEFAULT_BLOG_POSTS;
     }
