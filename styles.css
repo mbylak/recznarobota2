@@ -1199,6 +1199,14 @@ h2 {
   color: #1f6d38;
 }
 
+.blog-teaser-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
 .blog-teaser-head p {
   margin: 10px 0 0;
   max-width: 780px;
@@ -1206,11 +1214,30 @@ h2 {
   line-height: 1.55;
 }
 
+.blog-teaser-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.blog-teaser-controls.is-hidden {
+  display: none;
+}
+
+.blog-teaser-toggle-all,
+.js-blog-toggle-all {
+  white-space: nowrap;
+}
+
 .blog-teaser-list {
   margin-top: 18px;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
+}
+
+.blog-teaser-card.is-hidden {
+  display: none;
 }
 
 .blog-teaser-card {

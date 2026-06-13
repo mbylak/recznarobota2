@@ -154,8 +154,8 @@
       date: "30 maja 2026",
       status: "przewodnik",
       href: "./blog/zachody-slonca-nad-zalewem-zegrzynskim.html",
-      image: "https://images.unsplash.com/photo-1482192597420-4818b0b6f802?auto=format&fit=crop&w=800&q=75",
-      imageAlt: "Zachód słońca nad spokojną taflą jeziora",
+      image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=75",
+      imageAlt: "Złota godzina nad wodą o zachodzie słońca",
     },
     {
       id: "blog-aktywny-weekend",
@@ -409,13 +409,12 @@
     const emptyState = document.querySelector(".js-blog-empty");
     if (!list) return;
 
-    const items = posts
-      .filter((post) => post && post.title && post.summary)
-      .slice(0, 6);
+    const items = posts.filter((post) => post && post.title && post.summary);
 
     list.innerHTML = "";
     if (!items.length) {
       if (emptyState) emptyState.style.display = "block";
+      window.dispatchEvent(new CustomEvent("rr2:blog-updated"));
       return;
     }
 
@@ -443,6 +442,8 @@
       `;
       list.appendChild(article);
     });
+
+    window.dispatchEvent(new CustomEvent("rr2:blog-updated"));
   }
 
   async function initCmsRuntime() {

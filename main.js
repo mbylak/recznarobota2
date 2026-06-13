@@ -393,6 +393,82 @@ window.addEventListener("rr2:gallery-updated", () => {
   initGalleryCarousel();
 });
 
+const blogPrevButton = document.querySelector(".js-blog-prev");
+const blogNextButton = document.querySelector(".js-blog-next");
+const blogToggleAllButton = document.querySelector(".js-blog-toggle-all");
+const blogControls = document.querySelector(".js-blog-controls");
+let blogController = null;
+
+function initBlogTeaser() {
+  const list = document.querySelector(".js-blog-preview");
+  if (!list) return;
+
+  const cards = Array.from(list.querySelectorAll(".blog-teaser-card"));
+
+  blogController?.destroy?.();
+
+  const perPage = 3;
+  const totalPages = Math.max(1, Math.ceil(cards.length / perPage));
+  const hasPaging = cards.length > perPage;
+  let currentPage = 0;
+  let showAll = false;
+
+  if (blogControls) {
+    blogControls.classList.toggle("is-hidden", !hasPaging);
+  }
+
+  const render = () => {
+    cards.forEach((card, index) => {
+      const startIndex = currentPage * perPage;
+      const endIndex = startIndex + perPage;
+      const isVisible = showAll || (index >= startIndex && index < endIndex);
+      card.classList.toggle("is-hidden", !isVisible);
+    });
+
+    if (blogPrevButton) {
+      blogPrevButton.disabled = showAll || currentPage === 0;
+    }
+    if (blogNextButton) {
+      blogNextButton.disabled = showAll || currentPage >= totalPages - 1;
+    }
+  };
+
+  const goToPage = (targetPage) => {
+    if (showAll) return;
+    currentPage = Math.min(Math.max(targetPage, 0), totalPages - 1);
+    render();
+  };
+
+  const onPrev = () => goToPage(currentPage - 1);
+  const onNext = () => goToPage(currentPage + 1);
+  const onToggleAll = () => {
+    showAll = !showAll;
+    if (!showAll) currentPage = 0;
+    if (blogToggleAllButton) {
+      blogToggleAllButton.textContent = showAll ? "Zwiń wpisy" : "Zobacz wszystkie";
+      blogToggleAllButton.setAttribute("aria-expanded", String(showAll));
+    }
+    render();
+  };
+
+  blogPrevButton?.addEventListener("click", onPrev);
+  blogNextButton?.addEventListener("click", onNext);
+  blogToggleAllButton?.addEventListener("click", onToggleAll);
+
+  render();
+
+  blogController = {
+    destroy() {
+      blogPrevButton?.removeEventListener("click", onPrev);
+      blogNextButton?.removeEventListener("click", onNext);
+      blogToggleAllButton?.removeEventListener("click", onToggleAll);
+    },
+  };
+}
+
+initBlogTeaser();
+window.addEventListener("rr2:blog-updated", initBlogTeaser);
+
 if (aboutSlider) {
   const slides = Array.from(aboutSlider.querySelectorAll(".about-slide"));
   const dots = Array.from(aboutSlider.querySelectorAll(".js-about-dot"));
