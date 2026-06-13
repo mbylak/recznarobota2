@@ -208,7 +208,7 @@ body.is-preloading {
 }
 
 .hero .nav.is-fixed .brand-logo {
-  width: clamp(124px, 13vw, 160px);
+  width: clamp(92px, 9vw, 118px);
 }
 
 .brand {
