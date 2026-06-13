@@ -126,9 +126,13 @@ body.is-preloading {
 
 .hero {
   position: relative;
-  min-height: 760px;
+  min-height: 100vh;
+  min-height: 100svh;
   color: var(--navy);
-  padding: 22px 0 190px;
+  padding: clamp(104px, 15vh, 156px) 0 clamp(84px, 12vh, 150px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .hero-bg {
@@ -277,7 +281,7 @@ body.is-preloading {
 }
 
 .hero-content {
-  margin-top: 232px;
+  margin-top: 0;
   max-width: 620px;
 }
 
@@ -1810,6 +1814,57 @@ h2 {
   }
 }
 
+@media (max-height: 720px) {
+  .hero {
+    padding-top: clamp(88px, 13vh, 116px);
+    padding-bottom: clamp(60px, 9vh, 96px);
+  }
+
+  .hero h1.title-script {
+    font-size: clamp(40px, 8.4vh, 64px);
+    line-height: 0.94;
+  }
+
+  .lead {
+    font-size: 18px;
+    line-height: 1.45;
+  }
+
+  .hero-actions {
+    margin-top: 16px;
+  }
+}
+
+@media (max-height: 560px) {
+  .hero {
+    padding-top: 80px;
+    padding-bottom: 48px;
+  }
+
+  .eyebrow {
+    font-size: 12px;
+  }
+
+  .hero h1.title-script {
+    font-size: clamp(30px, 8vh, 46px);
+  }
+
+  .lead {
+    font-size: 14.5px;
+    line-height: 1.4;
+    max-width: 540px;
+  }
+
+  .hero-actions {
+    margin-top: 12px;
+    gap: 10px;
+  }
+
+  .btn {
+    padding: 9px 18px;
+  }
+}
+
 @media (max-width: 1080px) {
   .desktop-only {
     display: none;
@@ -1915,16 +1970,16 @@ h2 {
   }
 
   .hero {
-    min-height: 680px;
-    padding-bottom: 130px;
+    min-height: 100svh;
+    padding: clamp(92px, 13vh, 120px) 0 clamp(72px, 10vh, 110px);
   }
 
   .hero-content {
-    margin-top: 178px;
+    margin-top: 0;
   }
 
   .hero h1.title-script {
-    font-size: clamp(52px, 13vw, 68px);
+    font-size: clamp(46px, 11vw, 68px);
   }
 
   .lead {
