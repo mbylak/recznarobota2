@@ -185,19 +185,68 @@ function persistContactMessage(formData) {
 }
 
 if (pagePreloader) {
+  const PRELOADER_MAX_WAIT_MS = 2000;
+  const CRITICAL_ASSETS = [
+    "./assets/optimized/logo-preloader.webp",
+    "./hero.webp",
+  ];
+
+  let preloaderHidden = false;
+
   const hidePreloader = () => {
+    if (preloaderHidden) return;
+    preloaderHidden = true;
     pagePreloader.classList.add("is-hidden");
     document.body.classList.remove("is-preloading");
 
     window.setTimeout(() => {
       pagePreloader.remove();
     }, 380);
+
+    initHeroVideo();
   };
 
-  if (document.readyState === "complete") {
-    hidePreloader();
+  const waitForImage = (url) => new Promise((resolve) => {
+    const image = new Image();
+    image.decoding = "async";
+    const finish = () => resolve();
+    image.onload = finish;
+    image.onerror = finish;
+    image.src = url;
+  });
+
+  Promise.race([
+    Promise.all(CRITICAL_ASSETS.map(waitForImage)),
+    new Promise((resolve) => {
+      window.setTimeout(resolve, PRELOADER_MAX_WAIT_MS);
+    }),
+  ]).then(hidePreloader);
+}
+
+function initHeroVideo() {
+  const heroVideo = document.querySelector(".hero-video");
+  if (!heroVideo || heroVideo.dataset.loaded === "1") return;
+
+  const videoSrc = heroVideo.dataset.src;
+  if (!videoSrc) return;
+
+  heroVideo.dataset.loaded = "1";
+
+  const startPlayback = () => {
+    const source = document.createElement("source");
+    source.src = videoSrc;
+    source.type = "video/mp4";
+    heroVideo.appendChild(source);
+    heroVideo.load();
+    heroVideo.play().catch(() => {
+      // Autoplay may be blocked; poster remains visible.
+    });
+  };
+
+  if ("requestIdleCallback" in window) {
+    window.requestIdleCallback(startPlayback, { timeout: 2500 });
   } else {
-    window.addEventListener("load", hidePreloader, { once: true });
+    window.setTimeout(startPlayback, 1200);
   }
 }
 
@@ -238,13 +287,111 @@ hydrateSeasonMenuFromStorage();
 hydrateSeasonMenuFromCloud();
 hydrateGalleryFromStorage();
 const aboutSlider = document.querySelector(".js-about-slider");
-const gallery = document.querySelector(".js-gallery");
-const galleryItems = Array.from(document.querySelectorAll(".js-gallery-item"));
 const galleryPrevButton = document.querySelector(".js-gallery-prev");
 const galleryNextButton = document.querySelector(".js-gallery-next");
 const contactForm = document.querySelector(".js-contact-form");
 const contactFormNote = document.querySelector(".js-contact-form-note");
 let contactFormNoteTimer = null;
+let galleryController = null;
+
+function initGalleryCarousel() {
+  const galleryRoot = document.querySelector(".js-gallery");
+  if (!galleryRoot) return;
+
+  const galleryItems = Array.from(galleryRoot.querySelectorAll(".js-gallery-item"));
+  if (!galleryItems.length) return;
+
+  galleryController?.destroy?.();
+
+  const itemsPerPage = 8;
+  const totalPages = Math.max(1, Math.ceil(galleryItems.length / itemsPerPage));
+  let currentPage = 0;
+  let touchStartX = null;
+  let touchStartY = null;
+
+  const renderGalleryPage = () => {
+    const startIndex = currentPage * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+
+    galleryItems.forEach((item, index) => {
+      const isVisible = index >= startIndex && index < endIndex;
+      item.classList.toggle("is-hidden", !isVisible);
+      item.setAttribute("aria-hidden", String(!isVisible));
+    });
+
+    if (galleryPrevButton) {
+      galleryPrevButton.disabled = totalPages <= 1;
+    }
+    if (galleryNextButton) {
+      galleryNextButton.disabled = totalPages <= 1;
+    }
+  };
+
+  const goToPage = (targetPage) => {
+    if (totalPages <= 1) return;
+    currentPage = (targetPage + totalPages) % totalPages;
+    renderGalleryPage();
+  };
+
+  const onPrevClick = () => {
+    goToPage(currentPage - 1);
+  };
+
+  const onNextClick = () => {
+    goToPage(currentPage + 1);
+  };
+
+  const onTouchStart = (event) => {
+    const [touch] = event.changedTouches;
+    if (!touch) return;
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+  };
+
+  const onTouchEnd = (event) => {
+    if (touchStartX === null || touchStartY === null) return;
+
+    const [touch] = event.changedTouches;
+    if (!touch) return;
+
+    const deltaX = touch.clientX - touchStartX;
+    const deltaY = touch.clientY - touchStartY;
+
+    touchStartX = null;
+    touchStartY = null;
+
+    if (Math.abs(deltaY) > Math.abs(deltaX)) return;
+    if (Math.abs(deltaX) < 42) return;
+
+    if (deltaX < 0) {
+      goToPage(currentPage + 1);
+    } else {
+      goToPage(currentPage - 1);
+    }
+  };
+
+  galleryPrevButton?.addEventListener("click", onPrevClick);
+  galleryNextButton?.addEventListener("click", onNextClick);
+  galleryRoot.addEventListener("touchstart", onTouchStart, { passive: true });
+  galleryRoot.addEventListener("touchend", onTouchEnd, { passive: true });
+
+  renderGalleryPage();
+
+  galleryController = {
+    destroy() {
+      galleryPrevButton?.removeEventListener("click", onPrevClick);
+      galleryNextButton?.removeEventListener("click", onNextClick);
+      galleryRoot.removeEventListener("touchstart", onTouchStart);
+      galleryRoot.removeEventListener("touchend", onTouchEnd);
+    },
+  };
+}
+
+initGalleryCarousel();
+window.addEventListener("rr2:gallery-updated", () => {
+  hydrateGalleryFromStorage();
+  initGalleryCarousel();
+});
 
 if (aboutSlider) {
   const slides = Array.from(aboutSlider.querySelectorAll(".about-slide"));
@@ -422,78 +569,6 @@ if (seasonMenuSection) {
     setMobileMode(mobileMenuMq.matches);
     applyMenuFilter();
   });
-}
-
-if (gallery && galleryItems.length) {
-  const itemsPerPage = 8;
-  const totalPages = Math.max(1, Math.ceil(galleryItems.length / itemsPerPage));
-  let currentPage = 0;
-  let touchStartX = null;
-  let touchStartY = null;
-
-  const renderGalleryPage = () => {
-    const startIndex = currentPage * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-
-    galleryItems.forEach((item, index) => {
-      const isVisible = index >= startIndex && index < endIndex;
-      item.classList.toggle("is-hidden", !isVisible);
-      item.setAttribute("aria-hidden", String(!isVisible));
-    });
-
-    if (galleryPrevButton) {
-      galleryPrevButton.disabled = totalPages <= 1;
-    }
-    if (galleryNextButton) {
-      galleryNextButton.disabled = totalPages <= 1;
-    }
-  };
-
-  const goToPage = (targetPage) => {
-    if (totalPages <= 1) return;
-    currentPage = (targetPage + totalPages) % totalPages;
-    renderGalleryPage();
-  };
-
-  galleryPrevButton?.addEventListener("click", () => {
-    goToPage(currentPage - 1);
-  });
-
-  galleryNextButton?.addEventListener("click", () => {
-    goToPage(currentPage + 1);
-  });
-
-  gallery.addEventListener("touchstart", (event) => {
-    const [touch] = event.changedTouches;
-    if (!touch) return;
-    touchStartX = touch.clientX;
-    touchStartY = touch.clientY;
-  }, { passive: true });
-
-  gallery.addEventListener("touchend", (event) => {
-    if (touchStartX === null || touchStartY === null) return;
-
-    const [touch] = event.changedTouches;
-    if (!touch) return;
-
-    const deltaX = touch.clientX - touchStartX;
-    const deltaY = touch.clientY - touchStartY;
-
-    touchStartX = null;
-    touchStartY = null;
-
-    // Ignore vertical scrolling gestures.
-    if (Math.abs(deltaY) > Math.abs(deltaX)) return;
-    if (Math.abs(deltaX) < 42) return;
-
-    if (deltaX < 0) {
-      goToPage(currentPage + 1);
-    } else {
-      goToPage(currentPage - 1);
-    }
-  }, { passive: true });
-
-  renderGalleryPage();
 }
 
 if (contactForm) {

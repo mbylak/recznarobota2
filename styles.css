@@ -22,13 +22,22 @@ html {
 
 body {
   margin: 0;
-  font-family: "Lato", "Open Sans", sans-serif;
+  font-family: "Lato", sans-serif;
   color: var(--text);
   background: #fff;
 }
 
 body.is-preloading {
   overflow: hidden;
+}
+
+.gallery-section,
+.season-menu,
+.hours,
+.blog-teaser,
+.contact {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 640px;
 }
 
 .page-preloader {

@@ -24,15 +24,15 @@
       },
       aboutSlider: {
         slide1: {
-          src: "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1400&q=80",
+          src: "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=800&q=75",
           alt: "Burger serwowany w restauracji",
         },
         slide2: {
-          src: "https://images.unsplash.com/photo-1520072959219-c595dc870360?auto=format&fit=crop&w=1200&q=80",
+          src: "https://images.unsplash.com/photo-1520072959219-c595dc870360?auto=format&fit=crop&w=800&q=75",
           alt: "Kolorowa sałatka podana w misce",
         },
         slide3: {
-          src: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1200&q=80",
+          src: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=75",
           alt: "Pizza z dodatkami podana na drewnianym blacie",
         },
       },
@@ -134,7 +134,7 @@
       date: "16 maja 2026",
       status: "aktualności",
       href: "./blog/sezonowe-lemoniady-2026.html",
-      image: "https://images.unsplash.com/photo-1523362628745-0c100150b504?auto=format&fit=crop&w=1200&q=80",
+      image: "https://images.unsplash.com/photo-1523362628745-0c100150b504?auto=format&fit=crop&w=800&q=75",
       imageAlt: "Kolorowe lemoniady podane z lodem i miętą",
     },
     {
@@ -144,7 +144,7 @@
       date: "12 maja 2026",
       status: "kuchnia",
       href: "./blog/kulisy-kuchni-reczna-robota.html",
-      image: "https://images.unsplash.com/photo-1556911073-38141963c9e0?auto=format&fit=crop&w=1200&q=80",
+      image: "https://images.unsplash.com/photo-1556911073-38141963c9e0?auto=format&fit=crop&w=800&q=75",
       imageAlt: "Kucharz przygotowujący danie na kuchni restauracyjnej",
     },
     {
@@ -154,7 +154,7 @@
       date: "8 maja 2026",
       status: "przewodnik",
       href: "./blog/weekend-nad-zegrzem-plan-dnia.html",
-      image: "https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&w=1200&q=80",
+      image: "https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&w=800&q=75",
       imageAlt: "Widok na molo nad jeziorem w słoneczny dzień",
     },
   ];
@@ -190,9 +190,37 @@
     }
   }
 
+  function readLocalContent() {
+    try {
+      const localRaw = window.localStorage.getItem(CMS_CONTENT_KEY);
+      const localContent = localRaw ? JSON.parse(localRaw) : null;
+      const baseContent = localContent ? deepMerge(DEFAULT_CONTENT, localContent) : DEFAULT_CONTENT;
+      const settingsRaw = window.localStorage.getItem(CMS_SETTINGS_KEY);
+      const settings = settingsRaw ? JSON.parse(settingsRaw) : null;
+      return mergeLegacySettings(baseContent, settings);
+    } catch (error) {
+      return DEFAULT_CONTENT;
+    }
+  }
+
+  function readLocalBlogPosts() {
+    try {
+      const raw = window.localStorage.getItem(CMS_BLOG_KEY);
+      if (!raw) return DEFAULT_BLOG_POSTS;
+      const parsed = JSON.parse(raw);
+      if (!Array.isArray(parsed)) return DEFAULT_BLOG_POSTS;
+      return parsed;
+    } catch (error) {
+      return DEFAULT_BLOG_POSTS;
+    }
+  }
+
   async function readContent() {
     try {
-      const cloudContent = await readCloudKey(CMS_CONTENT_KEY);
+      const [cloudContent, cloudSettings] = await Promise.all([
+        readCloudKey(CMS_CONTENT_KEY),
+        readCloudKey(CMS_SETTINGS_KEY),
+      ]);
       const localRaw = window.localStorage.getItem(CMS_CONTENT_KEY);
       const localContent = localRaw ? JSON.parse(localRaw) : null;
       const baseSource = cloudContent || localContent;
@@ -202,7 +230,6 @@
         window.localStorage.setItem(CMS_CONTENT_KEY, JSON.stringify(cloudContent));
       }
 
-      const cloudSettings = await readCloudKey(CMS_SETTINGS_KEY);
       if (cloudSettings) {
         window.localStorage.setItem(CMS_SETTINGS_KEY, JSON.stringify(cloudSettings));
       }
@@ -334,7 +361,7 @@
       article.className = "blog-teaser-card";
       const imageSrc = typeof post.image === "string" && post.image.trim().length > 0
         ? post.image
-        : "https://images.unsplash.com/photo-1520072959219-c595dc870360?auto=format&fit=crop&w=1200&q=80";
+        : "https://images.unsplash.com/photo-1520072959219-c595dc870360?auto=format&fit=crop&w=800&q=75";
       const imageAlt = typeof post.imageAlt === "string" && post.imageAlt.trim().length > 0
         ? post.imageAlt
         : `Zdjęcie podglądowe artykułu: ${post.title}`;
@@ -355,14 +382,26 @@
   }
 
   async function initCmsRuntime() {
-    const content = await readContent();
-    const posts = await readBlogPosts();
-    const cloudGallery = await readCloudKey(CMS_GALLERY_KEY);
-    if (Array.isArray(cloudGallery)) {
-      window.localStorage.setItem(CMS_GALLERY_KEY, JSON.stringify(cloudGallery));
+    applyContent(readLocalContent());
+    renderBlogPreview(readLocalBlogPosts());
+
+    try {
+      const [content, posts, cloudGallery] = await Promise.all([
+        readContent(),
+        readBlogPosts(),
+        readCloudKey(CMS_GALLERY_KEY),
+      ]);
+
+      applyContent(content);
+      renderBlogPreview(posts);
+
+      if (Array.isArray(cloudGallery)) {
+        window.localStorage.setItem(CMS_GALLERY_KEY, JSON.stringify(cloudGallery));
+        window.dispatchEvent(new CustomEvent("rr2:gallery-updated"));
+      }
+    } catch (error) {
+      // Cached content remains visible when cloud sync fails.
     }
-    applyContent(content);
-    renderBlogPreview(posts);
   }
 
   initCmsRuntime();

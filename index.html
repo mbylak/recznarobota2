@@ -7,13 +7,17 @@
   <meta name="description" content="Bar nad Jeziorem Zegrzyńskim - pyszne jedzenie, zimne napoje i najlepszy widok.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Lato:wght@400;600;700&family=Open+Sans:wght@400;600;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/png" href="./favicon.png">
+  <link rel="preconnect" href="https://images.unsplash.com">
+  <link rel="preload" href="./assets/optimized/logo-preloader.webp" as="image" type="image/webp" fetchpriority="high">
+  <link rel="preload" href="./hero.webp" as="image" type="image/webp" fetchpriority="high">
   <link rel="stylesheet" href="./styles.css">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&family=Caveat:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet"></noscript>
+  <link rel="icon" type="image/png" href="./favicon.png">
 </head>
 <body class="is-preloading">
   <div class="page-preloader" id="page-preloader" role="status" aria-live="polite" aria-label="Ładowanie strony">
-    <img class="page-preloader-logo" src="./logo.png" alt="Ręczna Robota 2.0 Wodnik">
+    <img class="page-preloader-logo" src="./assets/optimized/logo-preloader.webp" alt="Ręczna Robota 2.0 Wodnik" width="280" height="120" fetchpriority="high" decoding="async">
     <div class="page-preloader-spinner" aria-hidden="true"></div>
   </div>
   <header class="hero" id="top">
@@ -24,17 +28,17 @@
         muted
         loop
         playsinline
-        preload="metadata"
+        preload="none"
         poster="./hero.webp"
-      >
-        <source src="./Projekt bez nazwy.mp4" type="video/mp4">
-      </video>
+        data-src="./Projekt%20bez%20nazwy.mp4"
+        aria-hidden="true"
+      ></video>
     </div>
     <div class="container">
       <nav class="nav">
         <div class="nav-inner">
           <a class="brand" href="#top">
-            <img class="brand-logo" src="./logo.png" alt="Ręczna Robota 2.0 Wodnik">
+            <img class="brand-logo" src="./logo.webp" alt="Ręczna Robota 2.0 Wodnik" width="180" height="78" fetchpriority="high" decoding="async">
           </a>
           <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-menu">
             ☰
@@ -114,7 +118,9 @@
           <figure class="about-slide is-active">
             <img
               class="about-slider-image"
-              src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1400&q=80"
+              src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=800&q=75"
+              fetchpriority="low"
+              decoding="async"
               alt="Burger serwowany w restauracji"
               data-cms-attr-src="index.aboutSlider.slide1.src"
               data-cms-attr-alt="index.aboutSlider.slide1.alt"
@@ -123,7 +129,8 @@
           <figure class="about-slide">
             <img
               class="about-slider-image"
-              src="https://images.unsplash.com/photo-1520072959219-c595dc870360?auto=format&fit=crop&w=1200&q=80"
+              src="https://images.unsplash.com/photo-1520072959219-c595dc870360?auto=format&fit=crop&w=800&q=75"
+              decoding="async"
               alt="Kolorowa sałatka podana w misce"
               data-cms-attr-src="index.aboutSlider.slide2.src"
               data-cms-attr-alt="index.aboutSlider.slide2.alt"
@@ -133,7 +140,8 @@
           <figure class="about-slide">
             <img
               class="about-slider-image"
-              src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1200&q=80"
+              src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=75"
+              decoding="async"
               alt="Pizza z dodatkami podana na drewnianym blacie"
               data-cms-attr-src="index.aboutSlider.slide3.src"
               data-cms-attr-alt="index.aboutSlider.slide3.alt"
@@ -155,7 +163,7 @@
           </div>
         </div>
         <div class="photo-badge">
-          <img class="photo-badge-icon" src="./pieczatka.png" alt="" aria-hidden="true">
+          <img class="photo-badge-icon" src="./assets/optimized/pieczatka.webp" alt="" aria-hidden="true" width="120" height="120" loading="lazy" decoding="async">
         </div>
       </div>
     </div>
@@ -175,22 +183,22 @@
         </div>
       </div>
       <div class="gallery js-gallery" aria-live="polite">
-        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80" alt="Widok na marinę">
-        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=1200&q=80" alt="Pomost nad jeziorem">
-        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1482192597420-4818b0b6f802?auto=format&fit=crop&w=1200&q=80" alt="Zachód słońca nad wodą">
-        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1200&q=80" alt="Taras lokalu wieczorem">
-        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1200&q=80" alt="Drewniany pomost nad spokojną wodą">
-        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80" alt="Zielona okolica i ścieżka spacerowa przy jeziorze">
-        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80" alt="Widok na wodę i niebo o złotej godzinie">
-        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?auto=format&fit=crop&w=1200&q=80" alt="Letni klimat nad wodą z łagodnym światłem zachodu">
-        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80" alt="Łodzie zacumowane w marinie">
-        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80" alt="Panorama jeziora i nieba w słoneczny dzień">
-        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1493558103817-58b2924bce98?auto=format&fit=crop&w=1200&q=80" alt="Taras restauracyjny przy wodzie">
-        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=1200&q=80" alt="Wieczorne światła odbijające się w wodzie">
-        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1493244040629-496f6d136cc3?auto=format&fit=crop&w=1200&q=80" alt="Brzeg jeziora otoczony zielenią">
-        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80" alt="Widok na wodę o poranku">
-        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1200&q=80" alt="Fale jeziora przy zachodzie słońca">
-        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=1200&q=80" alt="Pomost i krajobraz jeziora o złotej godzinie">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=640&q=75" alt="Widok na marinę" loading="lazy" decoding="async">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=640&q=75" alt="Pomost nad jeziorem" loading="lazy" decoding="async">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1482192597420-4818b0b6f802?auto=format&fit=crop&w=640&q=75" alt="Zachód słońca nad wodą" loading="lazy" decoding="async">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=640&q=75" alt="Taras lokalu wieczorem" loading="lazy" decoding="async">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=640&q=75" alt="Drewniany pomost nad spokojną wodą" loading="lazy" decoding="async">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=640&q=75" alt="Zielona okolica i ścieżka spacerowa przy jeziorze" loading="lazy" decoding="async">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=640&q=75" alt="Widok na wodę i niebo o złotej godzinie" loading="lazy" decoding="async">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?auto=format&fit=crop&w=640&q=75" alt="Letni klimat nad wodą z łagodnym światłem zachodu" loading="lazy" decoding="async">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=640&q=75" alt="Łodzie zacumowane w marinie" loading="lazy" decoding="async">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=640&q=75" alt="Panorama jeziora i nieba w słoneczny dzień" loading="lazy" decoding="async">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1493558103817-58b2924bce98?auto=format&fit=crop&w=640&q=75" alt="Taras restauracyjny przy wodzie" loading="lazy" decoding="async">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=640&q=75" alt="Wieczorne światła odbijające się w wodzie" loading="lazy" decoding="async">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1493244040629-496f6d136cc3?auto=format&fit=crop&w=640&q=75" alt="Brzeg jeziora otoczony zielenią" loading="lazy" decoding="async">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=640&q=75" alt="Widok na wodę o poranku" loading="lazy" decoding="async">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=640&q=75" alt="Fale jeziora przy zachodzie słońca" loading="lazy" decoding="async">
+        <img class="gallery-item js-gallery-item" src="https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=640&q=75" alt="Pomost i krajobraz jeziora o złotej godzinie" loading="lazy" decoding="async">
       </div>
     </div>
   </section>
@@ -462,7 +470,7 @@
     <div class="container footer-grid">
       <div>
         <div class="brand small">
-          <img class="brand-logo footer-logo" src="./logo.png" alt="Ręczna Robota 2.0 Wodnik">
+          <img class="brand-logo footer-logo" src="./logo.webp" alt="Ręczna Robota 2.0 Wodnik" width="160" height="70" loading="lazy" decoding="async">
         </div>
       </div>
       <div>
@@ -472,19 +480,19 @@
       <div>
         <p>
           <a class="footer-contact-item" href="tel:+48123456789" data-cms-attr-href="index.footer.phoneHref">
-            <img class="footer-contact-icon" src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/telephone-fill.svg" alt="" aria-hidden="true">
+            <img class="footer-contact-icon" src="./assets/icons/telephone.svg" alt="" aria-hidden="true" loading="lazy" decoding="async">
             <span data-cms="index.footer.phone">+48 123 456 789</span>
           </a>
         </p>
         <p>
           <a class="footer-contact-item" href="mailto:kontakt@recznarobota2.pl" data-cms-attr-href="index.footer.emailHref">
-            <img class="footer-contact-icon" src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/envelope-fill.svg" alt="" aria-hidden="true">
+            <img class="footer-contact-icon" src="./assets/icons/envelope.svg" alt="" aria-hidden="true" loading="lazy" decoding="async">
             <span data-cms="index.footer.email">kontakt@recznarobota2.pl</span>
           </a>
         </p>
         <p>
           <a class="footer-contact-item" href="https://www.facebook.com/recznarobota2.wodnik" target="_blank" rel="noopener noreferrer">
-            <img class="footer-contact-icon" src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/facebook.svg" alt="" aria-hidden="true">
+            <img class="footer-contact-icon" src="./assets/icons/facebook.svg" alt="" aria-hidden="true" loading="lazy" decoding="async">
             <span>/recznarobota2.wodnik</span>
           </a>
         </p>
@@ -504,10 +512,10 @@
     <div class="copyright">© <span class="js-current-year">2026</span> Ręczna Robota 2.0 Wodnik. Wszelkie prawa zastrzeżone.</div>
   </footer>
 
-  <script src="./app-config.js"></script>
-  <script src="./cloud-sync.js"></script>
-  <script src="./cms-runtime.js"></script>
-  <script src="./main.js"></script>
-  <script src="./site.js"></script>
+  <script src="./app-config.js" defer></script>
+  <script src="./cloud-sync.js" defer></script>
+  <script src="./cms-runtime.js" defer></script>
+  <script src="./main.js" defer></script>
+  <script src="./site.js" defer></script>
 </body>
 </html>
