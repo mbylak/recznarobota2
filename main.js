@@ -133,6 +133,7 @@ function hydrateGalleryFromStorage() {
           src="${escapeHtml(url)}"
           alt="Zdjęcie galerii ${index + 1}"
           loading="lazy"
+          onerror="this.src='https://picsum.photos/seed/gallery${index}/640/640';this.onerror=null;"
         >
       `)
       .join("");
@@ -289,6 +290,8 @@ hydrateGalleryFromStorage();
 const aboutSlider = document.querySelector(".js-about-slider");
 const galleryPrevButton = document.querySelector(".js-gallery-prev");
 const galleryNextButton = document.querySelector(".js-gallery-next");
+const galleryToggleAllButton = document.querySelector(".js-gallery-toggle-all");
+const galleryControls = document.querySelector(".js-gallery-controls");
 const contactForm = document.querySelector(".js-contact-form");
 const contactFormNote = document.querySelector(".js-contact-form-note");
 let contactFormNoteTimer = null;
@@ -303,42 +306,53 @@ function initGalleryCarousel() {
 
   galleryController?.destroy?.();
 
-  const itemsPerPage = 8;
+  const itemsPerPage = 3;
   const totalPages = Math.max(1, Math.ceil(galleryItems.length / itemsPerPage));
+  const hasPaging = galleryItems.length > itemsPerPage;
   let currentPage = 0;
+  let showAll = false;
   let touchStartX = null;
   let touchStartY = null;
 
-  const renderGalleryPage = () => {
+  if (galleryControls) {
+    galleryControls.classList.toggle("is-hidden", !hasPaging);
+  }
+
+  const render = () => {
     const startIndex = currentPage * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
 
     galleryItems.forEach((item, index) => {
-      const isVisible = index >= startIndex && index < endIndex;
+      const isVisible = showAll || (index >= startIndex && index < endIndex);
       item.classList.toggle("is-hidden", !isVisible);
       item.setAttribute("aria-hidden", String(!isVisible));
     });
 
     if (galleryPrevButton) {
-      galleryPrevButton.disabled = totalPages <= 1;
+      galleryPrevButton.disabled = showAll || totalPages <= 1;
     }
     if (galleryNextButton) {
-      galleryNextButton.disabled = totalPages <= 1;
+      galleryNextButton.disabled = showAll || totalPages <= 1;
     }
   };
 
   const goToPage = (targetPage) => {
-    if (totalPages <= 1) return;
+    if (showAll || totalPages <= 1) return;
     currentPage = (targetPage + totalPages) % totalPages;
-    renderGalleryPage();
+    render();
   };
 
-  const onPrevClick = () => {
-    goToPage(currentPage - 1);
-  };
+  const onPrevClick = () => goToPage(currentPage - 1);
+  const onNextClick = () => goToPage(currentPage + 1);
 
-  const onNextClick = () => {
-    goToPage(currentPage + 1);
+  const onToggleAll = () => {
+    showAll = !showAll;
+    if (!showAll) currentPage = 0;
+    if (galleryToggleAllButton) {
+      galleryToggleAllButton.textContent = showAll ? "Zwiń galerię" : "Zobacz wszystkie";
+      galleryToggleAllButton.setAttribute("aria-expanded", String(showAll));
+    }
+    render();
   };
 
   const onTouchStart = (event) => {
@@ -372,15 +386,17 @@ function initGalleryCarousel() {
 
   galleryPrevButton?.addEventListener("click", onPrevClick);
   galleryNextButton?.addEventListener("click", onNextClick);
+  galleryToggleAllButton?.addEventListener("click", onToggleAll);
   galleryRoot.addEventListener("touchstart", onTouchStart, { passive: true });
   galleryRoot.addEventListener("touchend", onTouchEnd, { passive: true });
 
-  renderGalleryPage();
+  render();
 
   galleryController = {
     destroy() {
       galleryPrevButton?.removeEventListener("click", onPrevClick);
       galleryNextButton?.removeEventListener("click", onNextClick);
+      galleryToggleAllButton?.removeEventListener("click", onToggleAll);
       galleryRoot.removeEventListener("touchstart", onTouchStart);
       galleryRoot.removeEventListener("touchend", onTouchEnd);
     },
