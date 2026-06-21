@@ -185,7 +185,7 @@ function persistContactMessage(formData) {
 }
 
 if (pagePreloader) {
-  const PRELOADER_MAX_WAIT_MS = 2000;
+  const PRELOADER_MAX_WAIT_MS = 1200;
   const CRITICAL_ASSETS = [
     "./assets/optimized/logo-preloader.webp",
     "./hero.webp",
