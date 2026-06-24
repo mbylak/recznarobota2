@@ -979,7 +979,7 @@ h2 {
 .gallery {
   margin: 18px 0 24px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
   touch-action: pan-y;
 }
@@ -993,7 +993,12 @@ h2 {
 
 .gallery-controls {
   display: inline-flex;
+  align-items: center;
   gap: 8px;
+}
+
+.gallery-controls.is-hidden {
+  display: none;
 }
 
 .gallery-control {
@@ -2035,7 +2040,7 @@ h2 {
   }
 
   .gallery {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
   }
 
   .gallery-head {
