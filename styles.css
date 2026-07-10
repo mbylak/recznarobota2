@@ -351,13 +351,12 @@ body.is-preloading {
   transition: transform 0.35s cubic-bezier(0.33, 1, 0.68, 1), opacity 0.2s ease;
 }
 
-.menu a.active,
 .menu a:hover {
+  color: var(--red);
   border-bottom-color: transparent;
 }
 
-.menu a.active::after,
-.menu a:hover::after {
+.menu a.active::after {
   opacity: 1;
   transform: scaleX(1);
 }
@@ -1941,8 +1940,7 @@ h2 {
     transition: none;
   }
 
-  .menu a.active::after,
-  .menu a:hover::after {
+  .menu a.active::after {
     animation: none;
   }
 

@@ -373,14 +373,15 @@ if (navigationSectionLinks.length > 0) {
   const updateActiveNavigationLink = () => {
     navigationUpdateFrame = null;
     const navigationHeight = heroNav?.offsetHeight ?? 0;
-    const activationLine = window.scrollY + Math.max(
+    const activationLine = Math.max(
       navigationHeight + 24,
       window.innerHeight * 0.3,
     );
     let activeEntry = navigationSectionLinks[0];
 
     navigationSectionLinks.forEach((entry) => {
-      if (entry.section.offsetTop <= activationLine) {
+      const sectionTop = entry.section.getBoundingClientRect().top;
+      if (sectionTop <= activationLine) {
         activeEntry = entry;
       }
     });
@@ -389,15 +390,13 @@ if (navigationSectionLinks.length > 0) {
       activeEntry = navigationSectionLinks[navigationSectionLinks.length - 1];
     }
 
-    navigationSectionLinks.forEach((entry) => {
-      const isActive = entry === activeEntry;
-      entry.link.classList.toggle("active", isActive);
-      if (isActive) {
-        entry.link.setAttribute("aria-current", "location");
-      } else {
-        entry.link.removeAttribute("aria-current");
-      }
+    navigationSectionLinks.forEach(({ link }) => {
+      link.classList.remove("active");
+      link.removeAttribute("aria-current");
     });
+
+    activeEntry.link.classList.add("active");
+    activeEntry.link.setAttribute("aria-current", "location");
   };
 
   const requestNavigationUpdate = () => {
