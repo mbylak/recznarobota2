@@ -5,19 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ręczna Robota 2.0 Wodnik</title>
   <meta name="description" content="Bar nad Jeziorem Zegrzyńskim - pyszne jedzenie, zimne napoje i najlepszy widok.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://images.unsplash.com">
   <link rel="preload" href="./assets/optimized/logo-preloader.webp" as="image" type="image/webp" fetchpriority="high">
   <link rel="preload" href="./hero.webp" as="image" type="image/webp" fetchpriority="high">
+  <link rel="preload" href="./assets/fonts/lato-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./assets/fonts/lato-400-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./assets/fonts/lato-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./assets/fonts/lato-700-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./assets/fonts/caveat-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./assets/fonts/caveat-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="./styles.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&family=Caveat:wght@400;700&display=swap">
   <link rel="icon" type="image/png" href="./favicon.png">
 </head>
 <body class="is-preloading">
   <div class="page-preloader" id="page-preloader" role="status" aria-live="polite" aria-label="Ładowanie strony">
     <img class="page-preloader-logo" src="./assets/optimized/logo-preloader.webp" alt="Ręczna Robota 2.0 Wodnik" width="280" height="120" fetchpriority="high" decoding="async">
     <div class="page-preloader-spinner" aria-hidden="true"></div>
+    <p class="page-preloader-label">Przygotowujemy klimat nad wodą</p>
   </div>
   <header class="hero" id="top">
     <div class="hero-bg" aria-hidden="true">
@@ -27,9 +31,9 @@
         muted
         loop
         playsinline
-        preload="none"
+        preload="auto"
         poster="./hero.webp"
-        data-src="./Projekt%20bez%20nazwy.mp4"
+        src="./Projekt%20bez%20nazwy.mp4"
         aria-hidden="true"
       ></video>
     </div>

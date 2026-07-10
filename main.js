@@ -184,9 +184,64 @@ function persistContactMessage(formData) {
   }
 }
 
+function initHeroVideo() {
+  const heroVideo = document.querySelector(".hero-video");
+  if (!heroVideo) return Promise.resolve();
+
+  heroVideo.dataset.loaded = "1";
+
+  return new Promise((resolve) => {
+    let isSettled = false;
+
+    const finish = (isReady) => {
+      if (isSettled) return;
+      isSettled = true;
+
+      if (isReady) {
+        heroVideo.classList.add("is-ready");
+        heroVideo.play().catch(() => {
+          // If autoplay is blocked, the prepared first frame remains visible.
+        });
+      }
+
+      resolve();
+    };
+
+    heroVideo.addEventListener("canplay", () => finish(true), { once: true });
+    heroVideo.addEventListener("error", () => finish(false), { once: true });
+
+    const videoSrc = heroVideo.dataset.src;
+    let sourceWasAdded = false;
+    if (videoSrc && !heroVideo.currentSrc) {
+      // Backward compatibility for pages still using data-src.
+      heroVideo.removeAttribute("data-src");
+      const source = document.createElement("source");
+      source.src = videoSrc;
+      source.type = "video/mp4";
+      heroVideo.appendChild(source);
+      sourceWasAdded = true;
+    }
+
+    if (heroVideo.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
+      finish(true);
+      return;
+    }
+
+    if (sourceWasAdded) {
+      heroVideo.load();
+    }
+    heroVideo.play().catch(() => {
+      // The next attempt is made as soon as the video can play.
+    });
+  });
+}
+
+const heroVideoReady = initHeroVideo();
+
 if (pagePreloader) {
-  const PRELOADER_MAX_WAIT_MS = 1200;
-  const CRITICAL_ASSETS = [
+  const PRELOADER_MIN_VISIBLE_MS = 650;
+  const PRELOADER_MAX_WAIT_MS = 6500;
+  const CRITICAL_IMAGES = [
     "./assets/optimized/logo-preloader.webp",
     "./hero.webp",
   ];
@@ -196,14 +251,21 @@ if (pagePreloader) {
   const hidePreloader = () => {
     if (preloaderHidden) return;
     preloaderHidden = true;
+
+    const preparedHeroVideo = document.querySelector(".hero-video.is-ready");
+    if (preparedHeroVideo) {
+      preparedHeroVideo.currentTime = 0;
+      preparedHeroVideo.play().catch(() => {
+        // The poster remains a seamless fallback when autoplay is unavailable.
+      });
+    }
+
     pagePreloader.classList.add("is-hidden");
     document.body.classList.remove("is-preloading");
 
     window.setTimeout(() => {
       pagePreloader.remove();
     }, 380);
-
-    initHeroVideo();
   };
 
   const waitForImage = (url) => new Promise((resolve) => {
@@ -215,39 +277,33 @@ if (pagePreloader) {
     image.src = url;
   });
 
-  Promise.race([
-    Promise.all(CRITICAL_ASSETS.map(waitForImage)),
-    new Promise((resolve) => {
-      window.setTimeout(resolve, PRELOADER_MAX_WAIT_MS);
-    }),
-  ]).then(hidePreloader);
-}
+  const waitForCriticalFonts = () => {
+    if (!document.fonts?.load) return Promise.resolve();
 
-function initHeroVideo() {
-  const heroVideo = document.querySelector(".hero-video");
-  if (!heroVideo || heroVideo.dataset.loaded === "1") return;
+    const fontLoads = [
+      document.fonts.load('400 16px "Lato"', "Zażółć gęślą jaźń"),
+      document.fonts.load('700 16px "Lato"', "Zażółć gęślą jaźń"),
+      document.fonts.load('700 48px "Caveat"', "Smak lata nad Zegrzem"),
+      document.fonts.load('700 24px "Playfair Display"', "Pyszne jedzenie"),
+    ];
 
-  const videoSrc = heroVideo.dataset.src;
-  if (!videoSrc) return;
-
-  heroVideo.dataset.loaded = "1";
-
-  const startPlayback = () => {
-    const source = document.createElement("source");
-    source.src = videoSrc;
-    source.type = "video/mp4";
-    heroVideo.appendChild(source);
-    heroVideo.load();
-    heroVideo.play().catch(() => {
-      // Autoplay may be blocked; poster remains visible.
-    });
+    return Promise.allSettled(fontLoads);
   };
 
-  if ("requestIdleCallback" in window) {
-    window.requestIdleCallback(startPlayback, { timeout: 2500 });
-  } else {
-    window.setTimeout(startPlayback, 1200);
-  }
+  const minimumDisplayTime = new Promise((resolve) => {
+    window.setTimeout(resolve, PRELOADER_MIN_VISIBLE_MS);
+  });
+  const maximumWait = new Promise((resolve) => {
+    window.setTimeout(resolve, PRELOADER_MAX_WAIT_MS);
+  });
+  const criticalContentReady = Promise.all([
+    minimumDisplayTime,
+    Promise.all(CRITICAL_IMAGES.map(waitForImage)),
+    waitForCriticalFonts(),
+    heroVideoReady,
+  ]);
+
+  Promise.race([criticalContentReady, maximumWait]).then(hidePreloader);
 }
 
 if (menuToggle && menu) {
