@@ -258,9 +258,21 @@ const INITIAL_MESSAGES = [
 ];
 
 const INITIAL_GALLERY = [
-  "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=400&q=80"
+  "./assets/gallery/photo-01.webp",
+  "./assets/gallery/photo-02.webp",
+  "./assets/gallery/photo-03.webp",
+  "./assets/gallery/photo-04.webp",
+  "./assets/gallery/photo-05.webp",
+  "./assets/gallery/photo-06.webp",
+  "./assets/gallery/photo-07.webp",
+  "./assets/gallery/photo-08.webp",
+  "./assets/gallery/photo-09.webp",
+  "./assets/gallery/photo-10.webp",
+  "./assets/gallery/photo-11.webp",
+  "./assets/gallery/photo-12.webp",
+  "./assets/gallery/photo-13.webp",
+  "./assets/gallery/photo-14.webp",
+  "./assets/gallery/photo-15.webp"
 ];
 
 const splitLegacyItemName = (rawName = '') => {

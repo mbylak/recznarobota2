@@ -90,6 +90,8 @@ html {
   scroll-padding-top: 90px;
   scrollbar-color: #c31b1b #dbe6f7;
   scrollbar-width: thin;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -97,6 +99,8 @@ body {
   font-family: "Lato", sans-serif;
   color: var(--text);
   background: #fff;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 body.is-preloading {
@@ -958,6 +962,7 @@ h2 {
 }
 
 .season-menu-list span {
+  min-width: 0;
   font-size: 14px;
   line-height: 1.45;
   color: #1d2d4a;
@@ -1233,6 +1238,10 @@ h2 {
 .contact-field + .contact-field,
 .contact-row + .contact-field {
   margin-top: 12px;
+}
+
+.contact-field {
+  min-width: 0;
 }
 
 .contact-field label {
@@ -1544,8 +1553,21 @@ h2 {
 }
 
 .about-page-topbar {
-  padding: 22px 0 14px;
+  min-height: 92px;
+  padding: 0;
   border-bottom: 1px solid #e4eaf3;
+}
+
+.about-page-topbar .nav {
+  background: rgba(255, 255, 255, 0.94);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(228, 234, 243, 0.92);
+  box-shadow: 0 8px 24px rgba(10, 28, 58, 0.06);
+}
+
+.about-page-topbar .nav-inner {
+  min-height: 92px;
 }
 
 .about-page-intro {
@@ -2054,7 +2076,7 @@ h2 {
   }
 
   .about-page-topbar {
-    padding: 18px 0 10px;
+    padding: 0;
   }
 
   .blog-article-header {
@@ -2076,6 +2098,301 @@ h2 {
 
   .footer-note-icon {
     margin-left: 0;
+  }
+}
+
+@media (min-width: 1081px) and (max-width: 1240px) {
+  .nav-inner {
+    gap: 14px;
+  }
+
+  .brand-logo {
+    width: clamp(136px, 14vw, 166px);
+  }
+
+  .menu {
+    gap: clamp(12px, 1.4vw, 18px);
+  }
+
+  .menu a {
+    font-size: 10px;
+  }
+
+  .btn-header-menu {
+    padding-inline: 16px;
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 30px 36px;
+  }
+
+  .footer-note {
+    grid-column: 2 / -1;
+    align-self: end;
+  }
+}
+
+/* Dedicated tablet layout: comfortable in portrait and landscape. */
+@media (min-width: 761px) and (max-width: 1080px) {
+  html {
+    scroll-padding-top: 88px;
+  }
+
+  .container,
+  .nav-inner,
+  .copyright {
+    width: min(920px, calc(100% - 48px));
+  }
+
+  .nav-inner {
+    min-height: 76px;
+    padding-block: 10px;
+  }
+
+  .brand-logo {
+    width: clamp(138px, 20vw, 174px);
+  }
+
+  .menu {
+    left: 0;
+    right: 0;
+    top: calc(100% + 6px);
+    width: 100%;
+    min-width: 0;
+    padding: 12px;
+    gap: 6px;
+  }
+
+  .menu.open {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .menu a {
+    min-height: 44px;
+    padding: 13px 10px 10px;
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  .menu a:hover,
+  .menu a:focus-visible {
+    background: #f2f6fc;
+  }
+
+  .menu a::after {
+    left: 18%;
+    bottom: 2px;
+    width: 64%;
+  }
+
+  .hero {
+    padding: clamp(108px, 13vh, 142px) 0 clamp(82px, 10vh, 118px);
+  }
+
+  .hero-content {
+    max-width: 560px;
+  }
+
+  .hero h1.title-script {
+    font-size: clamp(56px, 8vw, 74px);
+  }
+
+  .lead {
+    max-width: 520px;
+    font-size: 19px;
+    line-height: 1.52;
+  }
+
+  .about.section,
+  .gallery-section.section,
+  .season-menu.section,
+  .cta.section,
+  .hours.section-dark,
+  .blog-teaser.section,
+  .contact.section {
+    min-height: auto;
+    padding: clamp(54px, 7vh, 76px) 0;
+    align-items: flex-start;
+  }
+
+  .features-wrap {
+    margin-top: -48px;
+  }
+
+  .features {
+    gap: 4px 12px;
+    padding: 20px 22px;
+  }
+
+  .features article {
+    padding: 14px 16px;
+  }
+
+  .about-grid {
+    gap: 34px;
+  }
+
+  .about-content {
+    max-width: 680px;
+  }
+
+  .about-slider {
+    min-height: 0;
+    aspect-ratio: 16 / 9;
+  }
+
+  .about-slider-image {
+    min-height: 0;
+  }
+
+  .photo-badge {
+    width: 110px;
+    height: 110px;
+    right: 12px;
+    bottom: 10px;
+  }
+
+  .gallery {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .gallery-item {
+    border-radius: 10px;
+  }
+
+  .season-menu-grid {
+    gap: 12px;
+  }
+
+  .season-menu.is-mobile .menu-category {
+    padding: 14px 16px 10px;
+    margin-bottom: 2px;
+  }
+
+  .season-menu.is-mobile .menu-category .season-menu-list {
+    display: none;
+  }
+
+  .season-menu.is-mobile .menu-category.is-open .season-menu-list {
+    display: block;
+  }
+
+  .menu-category-toggle {
+    min-height: 44px;
+    padding-bottom: 8px;
+  }
+
+  .season-menu-list span {
+    min-width: 0;
+  }
+
+  .season-menu-list li {
+    align-items: baseline;
+  }
+
+  .daily-note {
+    max-width: 100%;
+    font-size: 31px;
+    flex-wrap: wrap;
+  }
+
+  .hours-map {
+    height: clamp(300px, 42vw, 400px);
+  }
+
+  .blog-teaser-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .blog-teaser-controls {
+    flex-wrap: wrap;
+  }
+
+  .contact::before,
+  .cta::before {
+    background-size: 54% auto;
+    opacity: 0.08;
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px 44px;
+  }
+
+  .footer-grid > :first-child,
+  .footer-note {
+    grid-column: 1 / -1;
+  }
+
+  .footer-logo {
+    width: 180px;
+  }
+
+  .footer-note {
+    font-size: 38px;
+    text-align: center;
+  }
+
+  .footer-contact-item {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .about-page-topbar,
+  .about-page-topbar .nav-inner {
+    min-height: 82px;
+  }
+
+  .about-page-intro {
+    padding-top: 42px;
+  }
+
+  .about-page-intro-grid {
+    gap: 40px;
+  }
+
+  .about-page-intro-actions .btn {
+    flex: 1 1 230px;
+  }
+
+  .about-page-story-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .about-page-story-card h3 {
+    font-size: 34px;
+  }
+
+  .blog-article-map {
+    height: 280px;
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1080px) {
+  .hours-grid {
+    grid-template-columns: minmax(270px, 0.78fr) minmax(0, 1.22fr);
+    gap: 36px;
+  }
+
+  .about-page-facts-grid {
+    grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+  }
+}
+
+@media (min-width: 960px) and (max-width: 1080px) {
+  .contact-grid {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 28px;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 900px) {
+  .contact-row {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -2260,5 +2577,59 @@ h2 {
     min-height: clamp(460px, 62svh, 640px);
     padding: clamp(44px, 6vh, 68px) 0;
     align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .container,
+  .nav-inner,
+  .copyright {
+    width: min(calc(100% - 24px), 1152px);
+  }
+
+  .nav-inner {
+    gap: 10px;
+  }
+
+  .brand-logo {
+    width: 132px;
+  }
+
+  .hero h1.title-script {
+    font-size: clamp(42px, 14vw, 58px);
+  }
+
+  .hero-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .hero-actions .btn,
+  .hero-menu-cta {
+    width: 100%;
+    max-width: none;
+  }
+
+  .gallery-head,
+  .blog-teaser-head {
+    align-items: flex-start;
+  }
+
+  .gallery-head .title-script {
+    max-width: calc(100% - 88px);
+  }
+
+  .about-page-topbar .btn {
+    max-width: 160px;
+    padding-inline: 12px;
+    text-align: center;
+  }
+
+  .blog-article-nav .btn {
+    padding-inline: 12px;
+  }
+
+  .footer {
+    padding-top: 40px;
   }
 }
