@@ -25,6 +25,14 @@
       "destination": "/admin.html"
     },
     {
+      "source": "/admin/",
+      "destination": "/admin.html"
+    },
+    {
+      "source": "/panel-administracyjny",
+      "destination": "/admin.html"
+    },
+    {
       "source": "/o-nas",
       "destination": "/o-nas.html"
     }

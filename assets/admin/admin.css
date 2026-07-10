@@ -1,0 +1,157 @@
+@font-face {
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/lato-400-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-024F, U+1E00-1EFF;
+}
+
+@font-face {
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/lato-400-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF;
+}
+
+@font-face {
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../fonts/lato-700-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-024F, U+1E00-1EFF;
+}
+
+@font-face {
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../fonts/lato-700-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF;
+}
+
+@font-face {
+  font-family: "Caveat";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("../fonts/caveat-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-024F, U+1E00-1EFF;
+}
+
+@font-face {
+  font-family: "Caveat";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("../fonts/caveat-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF;
+}
+
+:root {
+  color-scheme: light;
+  font-family: "Lato", system-ui, sans-serif;
+}
+
+html,
+body,
+#app {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  background: #f4f7fc;
+  color: #12203a;
+}
+
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 9999;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #0a1c3a;
+  font-weight: 700;
+  box-shadow: 0 8px 24px rgba(10, 28, 58, 0.2);
+  transform: translateY(-150%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.admin-loading {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  text-align: center;
+}
+
+.admin-loading-card {
+  width: min(440px, 100%);
+  padding: 28px;
+  border: 1px solid #dbe3ef;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 12px 32px rgba(10, 28, 58, 0.1);
+}
+
+.admin-loading-card h1 {
+  margin: 0 0 8px;
+  color: #0a1c3a;
+  font-family: "Caveat", cursive;
+  font-size: 38px;
+}
+
+.admin-loading-card p {
+  margin: 0;
+  color: #52627a;
+}
+
+button,
+a,
+input,
+textarea,
+select,
+summary {
+  touch-action: manipulation;
+}
+
+:where(button, a, input, textarea, select, summary):focus-visible {
+  outline: 3px solid #2563eb !important;
+  outline-offset: 3px !important;
+}
+
+#admin-main:focus {
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (forced-colors: active) {
+  button,
+  a,
+  input,
+  textarea,
+  select {
+    border: 1px solid ButtonText;
+  }
+}

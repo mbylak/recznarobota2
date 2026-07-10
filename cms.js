@@ -342,12 +342,6 @@ export default function CMSAdminApp() {
 
   // Ładowanie z localStorage po montowaniu
   useEffect(() => {
-    // Inicjalizacja fontów z oryginalnej strony
-    const link = document.createElement('link');
-    link.href = 'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Lato:wght@400;600;700&family=Caveat:wght@400;700&display=swap';
-    link.rel = 'stylesheet';
-    document.head.appendChild(link);
-
     const loadData = (key, setter, fallback) => {
       const stored = localStorage.getItem(key);
       if (stored) {
@@ -369,6 +363,10 @@ export default function CMSAdminApp() {
   useEffect(() => { localStorage.setItem('rr2_cms_blog_v1', JSON.stringify(blog)); }, [blog]);
   useEffect(() => { localStorage.setItem('rr2_cms_messages', JSON.stringify(messages)); }, [messages]);
   useEffect(() => { localStorage.setItem('rr2_cms_gallery', JSON.stringify(gallery)); }, [gallery]);
+
+  useEffect(() => {
+    document.getElementById('admin-main')?.focus({ preventScroll: true });
+  }, [activeTab]);
 
   const unreadCount = messages.filter(m => !m.isRead).length;
 
@@ -398,18 +396,20 @@ export default function CMSAdminApp() {
   return (
     <div className="flex h-screen bg-[#f4f7fc] text-[#12203a] font-['Lato',sans-serif] overflow-hidden">
       {/* Sidebar Desktop */}
-      <aside className="hidden md:flex flex-col w-64 bg-white border-r border-slate-200 shadow-sm z-10 no-print">
+      <aside className="hidden md:flex flex-col w-64 bg-white border-r border-slate-200 shadow-sm z-10 no-print" aria-label="Panel administracyjny">
         <div className="p-6 flex items-center justify-center border-b border-slate-100">
           <div className="text-center">
             <h1 className="font-['Caveat'] text-3xl font-bold text-[#0a1c3a] leading-none">Ręczna Robota</h1>
             <p className="text-[#c31b1b] font-bold text-sm tracking-widest mt-1">CMS ADMIN</p>
           </div>
         </div>
-        <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+        <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto" aria-label="Główna nawigacja panelu">
           {NAVIGATION.map((item) => (
             <button
+              type="button"
               key={item.id}
               onClick={() => setActiveTab(item.id)}
+              aria-current={activeTab === item.id ? 'page' : undefined}
               className={`flex items-center justify-between w-full px-4 py-3 rounded-xl transition-all duration-200 ${
                 activeTab === item.id 
                   ? 'bg-[#0a1c3a] text-white shadow-md' 
@@ -431,13 +431,16 @@ export default function CMSAdminApp() {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 flex flex-col h-full relative overflow-hidden">
+      <main id="admin-main" className="flex-1 flex flex-col h-full relative overflow-hidden" tabIndex="-1">
+        <p className="sr-only" aria-live="polite">
+          Otwarta sekcja: {NAVIGATION.find(item => item.id === activeTab)?.label}
+        </p>
         {/* Mobile Header */}
         <header className="md:hidden flex items-center justify-between bg-white px-5 py-4 border-b border-slate-200 z-10 no-print">
           <h1 className="font-['Caveat'] text-2xl font-bold text-[#0a1c3a]">RR 2.0 Admin</h1>
           <div className="flex items-center gap-4">
             {unreadCount > 0 && (
-              <button onClick={() => setActiveTab('messages')} className="relative p-2 text-slate-600">
+              <button type="button" aria-label={`Wiadomości: ${unreadCount} nieprzeczytanych`} onClick={() => setActiveTab('messages')} className="relative p-2 text-slate-600">
                 <Bell size={24} />
                 <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-[#c31b1b] rounded-full border-2 border-white"></span>
               </button>
@@ -454,11 +457,13 @@ export default function CMSAdminApp() {
       </main>
 
       {/* Mobile Bottom Nav */}
-      <nav className="md:hidden fixed bottom-0 w-full bg-white border-t border-slate-200 flex justify-around items-center pb-safe pt-1 px-2 z-20 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] no-print">
+      <nav className="md:hidden fixed bottom-0 w-full bg-white border-t border-slate-200 flex justify-around items-center pb-safe pt-1 px-2 z-20 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] no-print" aria-label="Mobilna nawigacja panelu">
         {NAVIGATION.filter(item => ['dashboard', 'editor', 'menu', 'settings'].includes(item.id)).map((item) => (
           <button
+            type="button"
             key={item.id}
             onClick={() => setActiveTab(item.id)}
+            aria-current={activeTab === item.id ? 'page' : undefined}
             className={`flex flex-col items-center p-2 min-w-[64px] transition-colors ${
               activeTab === item.id ? 'text-[#c31b1b]' : 'text-slate-500'
             }`}
@@ -476,7 +481,10 @@ export default function CMSAdminApp() {
         ))}
         {/* More Menu Toggle (Mobile) */}
         <button
+          type="button"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-expanded={isMobileMenuOpen}
+          aria-controls="admin-mobile-more-menu"
           className={`flex flex-col items-center p-2 min-w-[64px] transition-colors ${
             ['messages', 'gallery'].includes(activeTab) || isMobileMenuOpen ? 'text-[#c31b1b]' : 'text-slate-500'
           }`}
@@ -489,7 +497,7 @@ export default function CMSAdminApp() {
       {/* Mobile More Menu Overlay */}
       {isMobileMenuOpen && (
         <div className="md:hidden fixed inset-0 z-10 bg-slate-900/50 backdrop-blur-sm no-print" onClick={() => setIsMobileMenuOpen(false)}>
-          <div className="absolute bottom-16 right-4 bg-white rounded-2xl shadow-xl overflow-hidden min-w-[200px] border border-slate-100" onClick={e => e.stopPropagation()}>
+          <div id="admin-mobile-more-menu" role="dialog" aria-modal="true" aria-label="Więcej sekcji panelu" className="absolute bottom-16 right-4 bg-white rounded-2xl shadow-xl overflow-hidden min-w-[200px] border border-slate-100" onClick={e => e.stopPropagation()}>
             <div className="p-2">
               {[
                 { id: 'messages', label: 'Wiadomości', icon: MessageSquare, badge: unreadCount },
@@ -497,6 +505,7 @@ export default function CMSAdminApp() {
                 { id: 'blog', label: 'Wpisy', icon: FileText }
               ].map(item => (
                 <button
+                  type="button"
                   key={item.id}
                   onClick={() => { setActiveTab(item.id); setIsMobileMenuOpen(false); }}
                   className="w-full flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 text-slate-700 font-semibold"
@@ -1609,12 +1618,28 @@ function SettingsTab({ content, setContent }) {
 // --- KOMPONENTY POMOCNICZE ---
 
 function Modal({ title, children, onClose }) {
+  const dialogRef = React.useRef(null);
+
+  useEffect(() => {
+    const previouslyFocused = document.activeElement;
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') onClose();
+    };
+
+    dialogRef.current?.focus();
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      previouslyFocused?.focus?.();
+    };
+  }, [onClose]);
+
   return (
     <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 no-print" onClick={onClose}>
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden animate-in zoom-in-95 duration-200" onClick={e => e.stopPropagation()}>
+      <div ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby="admin-modal-title" tabIndex="-1" className="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden animate-in zoom-in-95 duration-200" onClick={e => e.stopPropagation()}>
         <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-          <h3 className="font-bold text-xl text-[#0a1c3a]">{title}</h3>
-          <button onClick={onClose} className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+          <h3 id="admin-modal-title" className="font-bold text-xl text-[#0a1c3a]">{title}</h3>
+          <button type="button" aria-label="Zamknij okno" onClick={onClose} className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors">
             <X size={20} />
           </button>
         </div>
@@ -1628,8 +1653,6 @@ function Modal({ title, children, onClose }) {
 
 // Globalne style używane w komponencie, w tym specjalne style do druku
 const styles = `
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Lato:wght@400;600;700&family=Caveat:wght@400;700&display=swap');
-  
   .form-label {
     display: block;
     margin-bottom: 6px;

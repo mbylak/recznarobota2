@@ -2,3 +2,4 @@
 cms-preview/
 
 .vercel
+node_modules/
