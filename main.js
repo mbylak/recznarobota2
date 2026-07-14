@@ -20,6 +20,15 @@ function escapeHtml(value) {
     .replaceAll("'", "&#39;");
 }
 
+function setMenuCategoryExpanded(category, isExpanded) {
+  const toggle = category.querySelector(".js-menu-category-toggle");
+  const list = category.querySelector(".season-menu-list");
+
+  category.classList.toggle("is-open", isExpanded);
+  toggle?.setAttribute("aria-expanded", String(isExpanded));
+  list?.setAttribute("aria-hidden", String(!isExpanded));
+}
+
 function attachGalleryImageFallbacks() {
   const galleryImages = document.querySelectorAll(".js-gallery-item");
 
@@ -85,41 +94,30 @@ function hydrateSeasonMenuFromStorage() {
 
   if (!sanitizedCategories.length) return;
 
-  const columns = [[], [], []];
-  sanitizedCategories.forEach((category, index) => {
-    columns[index % columns.length].push(category);
-  });
-
-  const menuMarkup = columns
-    .map((columnCategories) => `
-      <div class="season-menu-column js-menu-column">
-        ${columnCategories
-          .map((category) => `
-            <article class="menu-category js-menu-category" data-category-name="${escapeHtml(category.name)}">
-              <button class="menu-category-toggle js-menu-category-toggle" type="button" aria-expanded="true">
-                <span class="menu-category-heading">
-                  <span class="menu-category-emoji" aria-hidden="true">${escapeHtml(category.icon)}</span>
-                  ${escapeHtml(category.name)}
+  const menuMarkup = sanitizedCategories
+    .map((category) => `
+      <article class="menu-category js-menu-category" data-category-name="${escapeHtml(category.name)}">
+        <button class="menu-category-toggle js-menu-category-toggle" type="button" aria-expanded="true">
+          <span class="menu-category-heading">
+            <span class="menu-category-emoji" aria-hidden="true">${escapeHtml(category.icon)}</span>
+            ${escapeHtml(category.name)}
+          </span>
+          <span class="menu-category-chevron" aria-hidden="true"></span>
+        </button>
+        <ul class="season-menu-list">
+          ${category.items
+            .map((item) => `
+              <li data-menu-item>
+                <span>
+                  ${escapeHtml(item.name)}
+                  ${item.subtitle ? `<small class="menu-item-subtitle">${escapeHtml(item.subtitle)}</small>` : ""}
                 </span>
-                <span class="menu-category-chevron" aria-hidden="true"></span>
-              </button>
-              <ul class="season-menu-list">
-                ${category.items
-                  .map((item) => `
-                    <li data-menu-item>
-                      <span>
-                        ${escapeHtml(item.name)}
-                        ${item.subtitle ? `<small class="menu-item-subtitle">${escapeHtml(item.subtitle)}</small>` : ""}
-                      </span>
-                      <strong>${escapeHtml(item.price)}</strong>
-                    </li>
-                  `)
-                  .join("")}
-              </ul>
-            </article>
-          `)
-          .join("")}
-      </div>
+                <strong>${escapeHtml(item.price)}</strong>
+              </li>
+            `)
+            .join("")}
+        </ul>
+      </article>
     `)
     .join("");
 
@@ -732,40 +730,15 @@ if (aboutSlider) {
 }
 
 if (seasonMenuSection) {
-  const mobileMenuMq = window.matchMedia("(max-width: 1080px)");
   const getSeasonMenuCategories = () => Array.from(
     seasonMenuSection.querySelectorAll(".js-menu-category"),
   );
-  const getSeasonMenuColumns = () => Array.from(
-    seasonMenuSection.querySelectorAll(".js-menu-column"),
-  );
-
-  const setMobileMode = (isMobile) => {
-    seasonMenuSection.classList.toggle("is-mobile", isMobile);
-    const seasonMenuCategories = getSeasonMenuCategories();
-
-    seasonMenuCategories.forEach((category, index) => {
-      const toggle = category.querySelector(".js-menu-category-toggle");
-      if (!toggle) return;
-
-      if (isMobile) {
-        const shouldOpen = index === 0;
-        category.classList.toggle("is-open", shouldOpen);
-        toggle.setAttribute("aria-expanded", String(shouldOpen));
-      } else {
-        category.classList.add("is-open");
-        toggle.setAttribute("aria-expanded", "true");
-      }
-    });
-  };
 
   const applyMenuFilter = () => {
     const query = (seasonMenuSearch?.value ?? "").trim().toLowerCase();
     const seasonMenuCategories = getSeasonMenuCategories();
-    const seasonMenuColumns = getSeasonMenuColumns();
 
     seasonMenuCategories.forEach((category) => {
-      const toggle = category.querySelector(".js-menu-category-toggle");
       const categoryName = (category.dataset.categoryName ?? "").toLowerCase();
       const headingMatches = query.length > 0 && categoryName.includes(query);
       const items = Array.from(category.querySelectorAll("[data-menu-item]"));
@@ -781,17 +754,13 @@ if (seasonMenuSection) {
       const categoryVisible = headingMatches || visibleItems > 0;
       category.classList.toggle("is-hidden", !categoryVisible);
 
-      if (mobileMenuMq.matches && query.length > 0 && categoryVisible) {
-        category.classList.add("is-open");
-        toggle?.setAttribute("aria-expanded", "true");
+      if (query.length > 0) {
+        category.dataset.expandedBySearch = "true";
+        setMenuCategoryExpanded(category, categoryVisible);
+      } else if (category.dataset.expandedBySearch === "true") {
+        delete category.dataset.expandedBySearch;
+        setMenuCategoryExpanded(category, false);
       }
-    });
-
-    seasonMenuColumns.forEach((column) => {
-      const hasVisibleCategory = Array.from(
-        column.querySelectorAll(".js-menu-category"),
-      ).some((category) => !category.classList.contains("is-hidden"));
-      column.classList.toggle("is-hidden", !hasVisibleCategory);
     });
   };
 
@@ -800,34 +769,32 @@ if (seasonMenuSection) {
     if (!(target instanceof Element)) return;
     const toggle = target.closest(".js-menu-category-toggle");
     if (!toggle || !seasonMenuSection.contains(toggle)) return;
-    if (!mobileMenuMq.matches) return;
 
     const category = toggle.closest(".js-menu-category");
     if (!category) return;
 
-    const isOpen = category.classList.toggle("is-open");
-    toggle.setAttribute("aria-expanded", String(isOpen));
+    const shouldOpen = !category.classList.contains("is-open");
+    if (shouldOpen) {
+      getSeasonMenuCategories().forEach((otherCategory) => {
+        if (otherCategory !== category) {
+          setMenuCategoryExpanded(otherCategory, false);
+        }
+      });
+    }
+    setMenuCategoryExpanded(category, shouldOpen);
   });
 
-  const onViewportChange = (event) => {
-    setMobileMode(event.matches);
+  const initializeSeasonMenu = () => {
+    seasonMenuSection.classList.add("is-interactive");
+    getSeasonMenuCategories().forEach((category) => {
+      setMenuCategoryExpanded(category, false);
+    });
     applyMenuFilter();
   };
 
-  setMobileMode(mobileMenuMq.matches);
-  applyMenuFilter();
-
-  if (typeof mobileMenuMq.addEventListener === "function") {
-    mobileMenuMq.addEventListener("change", onViewportChange);
-  } else {
-    mobileMenuMq.addListener(onViewportChange);
-  }
-
+  initializeSeasonMenu();
   seasonMenuSearch?.addEventListener("input", applyMenuFilter);
-  window.addEventListener("rr2:season-menu-updated", () => {
-    setMobileMode(mobileMenuMq.matches);
-    applyMenuFilter();
-  });
+  window.addEventListener("rr2:season-menu-updated", initializeSeasonMenu);
 }
 
 if (contactForm) {
