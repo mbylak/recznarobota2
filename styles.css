@@ -1161,11 +1161,32 @@ h2 {
 }
 
 .gallery {
+  position: relative;
   margin: 18px 0 24px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+  width: 100%;
+  aspect-ratio: 21 / 9;
+  max-height: 620px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #0a1c3a;
+  box-shadow: 0 18px 44px rgba(10, 28, 58, 0.18);
   touch-action: pan-y;
+}
+
+.gallery-counter {
+  position: absolute;
+  right: 16px;
+  bottom: 14px;
+  z-index: 3;
+  margin: 0;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(8, 20, 44, 0.62);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  pointer-events: none;
 }
 
 .gallery-head {
@@ -1210,11 +1231,27 @@ h2 {
 }
 
 .gallery-item {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  aspect-ratio: 1;
+  height: 100%;
   object-fit: cover;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 0;
+  border-radius: 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1.03);
+  transition:
+    opacity 0.7s ease,
+    visibility 0.7s ease,
+    transform 5.5s ease-out;
+}
+
+.gallery-item.is-active {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+  z-index: 1;
 }
 
 .gallery-item.is-hidden {
@@ -1227,12 +1264,8 @@ h2 {
   border-bottom: 1px solid #dbe3ef;
 }
 
-.gallery-section .gallery img {
-  border: 1px solid #dbe3ef;
-}
-
 .gallery-section .gallery-item {
-  border: 1px solid #dbe3ef;
+  border: 0;
 }
 
 .cta {
@@ -2048,6 +2081,11 @@ h2 {
   .season-menu-list {
     transition: none;
   }
+
+  .gallery-item {
+    transition: none;
+    transform: none;
+  }
 }
 
 @media (max-height: 720px) {
@@ -2345,12 +2383,8 @@ h2 {
   }
 
   .gallery {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
-  }
-
-  .gallery-item {
-    border-radius: 10px;
+    aspect-ratio: 16 / 9;
+    border-radius: 14px;
   }
 
   .season-menu-grid {
@@ -2520,7 +2554,15 @@ h2 {
   }
 
   .gallery {
-    grid-template-columns: repeat(2, 1fr);
+    aspect-ratio: 4 / 3;
+    border-radius: 12px;
+  }
+
+  .gallery-counter {
+    right: 12px;
+    bottom: 10px;
+    padding: 5px 11px;
+    font-size: 12px;
   }
 
   .gallery-head {

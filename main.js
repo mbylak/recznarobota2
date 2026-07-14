@@ -194,7 +194,7 @@ function hydrateGalleryFromStorage() {
           class="gallery-item js-gallery-item"
           src="${escapeHtml(url)}"
           alt="Zdjęcie galerii ${index + 1}"
-          loading="lazy"
+          ${index === 0 ? "" : 'loading="lazy"'}
         >
       `)
       .join("");
@@ -486,46 +486,62 @@ function initGalleryCarousel() {
 
   galleryController?.destroy?.();
 
-  const itemsPerPage = window.innerWidth <= 760
-    ? 4
-    : window.innerWidth <= 1080
-      ? 6
-      : 8;
-  const totalPages = Math.max(1, Math.ceil(galleryItems.length / itemsPerPage));
-  let currentPage = 0;
+  const AUTOPLAY_MS = 5000;
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const totalSlides = galleryItems.length;
+  let activeIndex = 0;
+  let autoplayTimer = null;
   let touchStartX = null;
   let touchStartY = null;
 
-  const renderGalleryPage = () => {
-    const startIndex = currentPage * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
+  let counter = galleryRoot.querySelector(".js-gallery-counter");
+  if (!counter) {
+    counter = document.createElement("p");
+    counter.className = "gallery-counter js-gallery-counter";
+    counter.setAttribute("aria-hidden", "true");
+    galleryRoot.appendChild(counter);
+  }
 
+  const renderSlide = () => {
     galleryItems.forEach((item, index) => {
-      const isVisible = index >= startIndex && index < endIndex;
-      item.classList.toggle("is-hidden", !isVisible);
-      item.setAttribute("aria-hidden", String(!isVisible));
+      item.classList.toggle("is-active", index === activeIndex);
+      item.setAttribute("aria-hidden", String(index !== activeIndex));
     });
+    counter.textContent = `${activeIndex + 1} / ${totalSlides}`;
 
-    if (galleryPrevButton) {
-      galleryPrevButton.disabled = totalPages <= 1;
-    }
-    if (galleryNextButton) {
-      galleryNextButton.disabled = totalPages <= 1;
+    if (galleryPrevButton) galleryPrevButton.disabled = totalSlides <= 1;
+    if (galleryNextButton) galleryNextButton.disabled = totalSlides <= 1;
+  };
+
+  const goToSlide = (targetIndex) => {
+    if (totalSlides <= 1) return;
+    activeIndex = (targetIndex + totalSlides) % totalSlides;
+    renderSlide();
+  };
+
+  const stopAutoplay = () => {
+    if (autoplayTimer !== null) {
+      window.clearInterval(autoplayTimer);
+      autoplayTimer = null;
     }
   };
 
-  const goToPage = (targetPage) => {
-    if (totalPages <= 1) return;
-    currentPage = (targetPage + totalPages) % totalPages;
-    renderGalleryPage();
+  const startAutoplay = () => {
+    if (prefersReducedMotion || totalSlides <= 1 || document.hidden) return;
+    stopAutoplay();
+    autoplayTimer = window.setInterval(() => {
+      goToSlide(activeIndex + 1);
+    }, AUTOPLAY_MS);
   };
 
   const onPrevClick = () => {
-    goToPage(currentPage - 1);
+    goToSlide(activeIndex - 1);
+    startAutoplay();
   };
 
   const onNextClick = () => {
-    goToPage(currentPage + 1);
+    goToSlide(activeIndex + 1);
+    startAutoplay();
   };
 
   const onTouchStart = (event) => {
@@ -533,9 +549,11 @@ function initGalleryCarousel() {
     if (!touch) return;
     touchStartX = touch.clientX;
     touchStartY = touch.clientY;
+    stopAutoplay();
   };
 
   const onTouchEnd = (event) => {
+    startAutoplay();
     if (touchStartX === null || touchStartY === null) return;
 
     const [touch] = event.changedTouches;
@@ -551,9 +569,19 @@ function initGalleryCarousel() {
     if (Math.abs(deltaX) < 42) return;
 
     if (deltaX < 0) {
-      goToPage(currentPage + 1);
+      goToSlide(activeIndex + 1);
     } else {
-      goToPage(currentPage - 1);
+      goToSlide(activeIndex - 1);
+    }
+  };
+
+  const onMouseEnter = () => stopAutoplay();
+  const onMouseLeave = () => startAutoplay();
+  const onVisibilityChange = () => {
+    if (document.hidden) {
+      stopAutoplay();
+    } else {
+      startAutoplay();
     }
   };
 
@@ -561,15 +589,23 @@ function initGalleryCarousel() {
   galleryNextButton?.addEventListener("click", onNextClick);
   galleryRoot.addEventListener("touchstart", onTouchStart, { passive: true });
   galleryRoot.addEventListener("touchend", onTouchEnd, { passive: true });
+  galleryRoot.addEventListener("mouseenter", onMouseEnter);
+  galleryRoot.addEventListener("mouseleave", onMouseLeave);
+  document.addEventListener("visibilitychange", onVisibilityChange);
 
-  renderGalleryPage();
+  renderSlide();
+  startAutoplay();
 
   galleryController = {
     destroy() {
+      stopAutoplay();
       galleryPrevButton?.removeEventListener("click", onPrevClick);
       galleryNextButton?.removeEventListener("click", onNextClick);
       galleryRoot.removeEventListener("touchstart", onTouchStart);
       galleryRoot.removeEventListener("touchend", onTouchEnd);
+      galleryRoot.removeEventListener("mouseenter", onMouseEnter);
+      galleryRoot.removeEventListener("mouseleave", onMouseLeave);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
     },
   };
 }
