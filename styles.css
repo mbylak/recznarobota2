@@ -235,10 +235,26 @@ body.is-preloading {
   display: block;
   opacity: 0;
   transition: opacity 0.45s ease;
+  filter: saturate(1.18) sepia(0.16) hue-rotate(-6deg) brightness(1.04) contrast(1.02);
 }
 
 .hero-video.is-ready {
   opacity: 1;
+}
+
+/* Ciepła, wakacyjna poświata nad wideo (złota godzina). */
+.hero-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 190, 110, 0.16) 0%,
+    rgba(255, 160, 80, 0.1) 38%,
+    rgba(255, 120, 60, 0.14) 100%
+  );
+  pointer-events: none;
 }
 
 .hero-bg::after {
