@@ -20,6 +20,42 @@ function escapeHtml(value) {
     .replaceAll("'", "&#39;");
 }
 
+const MENU_CATEGORY_PHOTOS = [
+  { keywords: ["zup"], src: "https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=600&q=70" },
+  { keywords: ["dania", "główne", "glowne", "obiad"], src: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=70" },
+  { keywords: ["pizza"], src: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=70" },
+  { keywords: ["ciep", "kawa", "herbat"], src: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=70" },
+  { keywords: ["nalewak"], src: "https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=600&q=70" },
+  { keywords: ["bezalkohol"], src: "https://images.unsplash.com/photo-1618183479302-1e0aa382c36b?auto=format&fit=crop&w=600&q=70" },
+  { keywords: ["piwo"], src: "https://images.unsplash.com/photo-1571613316887-6f8d5cbf7ef7?auto=format&fit=crop&w=600&q=70" },
+  { keywords: ["wino", "wina"], src: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=600&q=70" },
+  { keywords: ["napoje", "napój", "napoj", "lemoniad"], src: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?auto=format&fit=crop&w=600&q=70" },
+];
+
+function findMenuCategoryPhoto(categoryName) {
+  const normalizedName = String(categoryName || "").toLowerCase();
+  const match = MENU_CATEGORY_PHOTOS.find((entry) =>
+    entry.keywords.some((keyword) => normalizedName.includes(keyword)),
+  );
+  return match ? match.src : "";
+}
+
+function buildMenuCategoryMediaMarkup(categoryName, icon) {
+  const photoSrc = findMenuCategoryPhoto(categoryName);
+  if (photoSrc) {
+    return `
+      <span class="menu-category-media">
+        <img class="menu-category-photo" src="${escapeHtml(photoSrc)}" alt="" aria-hidden="true" loading="lazy" decoding="async">
+      </span>
+    `;
+  }
+  return `
+    <span class="menu-category-media is-fallback">
+      <span class="menu-category-emoji" aria-hidden="true">${escapeHtml(icon)}</span>
+    </span>
+  `;
+}
+
 function setMenuCategoryExpanded(category, isExpanded) {
   const toggle = category.querySelector(".js-menu-category-toggle");
   const list = category.querySelector(".season-menu-list");
@@ -98,25 +134,27 @@ function hydrateSeasonMenuFromStorage() {
     .map((category) => `
       <article class="menu-category js-menu-category" data-category-name="${escapeHtml(category.name)}">
         <button class="menu-category-toggle js-menu-category-toggle" type="button" aria-expanded="true">
-          <span class="menu-category-heading">
-            <span class="menu-category-emoji" aria-hidden="true">${escapeHtml(category.icon)}</span>
-            ${escapeHtml(category.name)}
+          ${buildMenuCategoryMediaMarkup(category.name, category.icon)}
+          <span class="menu-category-bar">
+            <span class="menu-category-heading">${escapeHtml(category.name)}</span>
+            <span class="menu-category-chevron" aria-hidden="true"></span>
           </span>
-          <span class="menu-category-chevron" aria-hidden="true"></span>
         </button>
-        <ul class="season-menu-list">
-          ${category.items
-            .map((item) => `
-              <li data-menu-item>
-                <span>
-                  ${escapeHtml(item.name)}
-                  ${item.subtitle ? `<small class="menu-item-subtitle">${escapeHtml(item.subtitle)}</small>` : ""}
-                </span>
-                <strong>${escapeHtml(item.price)}</strong>
-              </li>
-            `)
-            .join("")}
-        </ul>
+        <div class="menu-category-body">
+          <ul class="season-menu-list">
+            ${category.items
+              .map((item) => `
+                <li data-menu-item>
+                  <span>
+                    ${escapeHtml(item.name)}
+                    ${item.subtitle ? `<small class="menu-item-subtitle">${escapeHtml(item.subtitle)}</small>` : ""}
+                  </span>
+                  <strong>${escapeHtml(item.price)}</strong>
+                </li>
+              `)
+              .join("")}
+          </ul>
+        </div>
       </article>
     `)
     .join("");
@@ -773,15 +811,7 @@ if (seasonMenuSection) {
     const category = toggle.closest(".js-menu-category");
     if (!category) return;
 
-    const shouldOpen = !category.classList.contains("is-open");
-    if (shouldOpen) {
-      getSeasonMenuCategories().forEach((otherCategory) => {
-        if (otherCategory !== category) {
-          setMenuCategoryExpanded(otherCategory, false);
-        }
-      });
-    }
-    setMenuCategoryExpanded(category, shouldOpen);
+    setMenuCategoryExpanded(category, !category.classList.contains("is-open"));
   });
 
   const initializeSeasonMenu = () => {
