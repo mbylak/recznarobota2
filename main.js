@@ -6,10 +6,14 @@ const pagePreloader = document.querySelector("#page-preloader");
 const CMS_MESSAGES_KEY = "rr2_cms_messages";
 const CMS_MENU_KEY = "rr2_cms_menu_v2";
 const CMS_GALLERY_KEY = "rr2_cms_gallery";
-const GALLERY_FALLBACK_IMAGES = Array.from(
-  { length: 15 },
-  (_, index) => `./assets/gallery/photo-${String(index + 1).padStart(2, "0")}.webp`,
-);
+const GALLERY_FALLBACK_IMAGES = [
+  "./assets/gallery/krajobraz.webp",
+  "./assets/gallery/kotlety.webp",
+  "./assets/gallery/pizza1.webp",
+  "./assets/gallery/mniam.webp",
+  "./assets/gallery/pizza2.webp",
+  "./assets/gallery/jaja.webp",
+];
 
 function escapeHtml(value) {
   return String(value)
@@ -21,15 +25,15 @@ function escapeHtml(value) {
 }
 
 const MENU_CATEGORY_PHOTOS = [
-  { keywords: ["zup"], src: "https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=600&q=70" },
-  { keywords: ["dania", "główne", "glowne", "obiad"], src: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=70" },
-  { keywords: ["pizza"], src: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=70" },
-  { keywords: ["ciep", "kawa", "herbat"], src: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=70" },
-  { keywords: ["nalewak"], src: "https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=600&q=70" },
-  { keywords: ["bezalkohol"], src: "https://images.unsplash.com/photo-1618183479302-1e0aa382c36b?auto=format&fit=crop&w=600&q=70" },
-  { keywords: ["piwo"], src: "https://images.unsplash.com/photo-1571613316887-6f8d5cbf7ef7?auto=format&fit=crop&w=600&q=70" },
-  { keywords: ["wino", "wina"], src: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=600&q=70" },
-  { keywords: ["napoje", "napój", "napoj", "lemoniad"], src: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?auto=format&fit=crop&w=600&q=70" },
+  { keywords: ["zup"], src: "./assets/gallery/jaja.webp" },
+  { keywords: ["dania", "główne", "glowne", "obiad"], src: "./assets/gallery/kotlety.webp" },
+  { keywords: ["pizza"], src: "./assets/gallery/pizza1.webp" },
+  { keywords: ["ciep", "kawa", "herbat"], src: "./assets/gallery/jaja.webp" },
+  { keywords: ["nalewak"], src: "./assets/gallery/pizza2.webp" },
+  { keywords: ["bezalkohol"], src: "./assets/gallery/mniam.webp" },
+  { keywords: ["piwo"], src: "./assets/gallery/krajobraz.webp" },
+  { keywords: ["wino", "wina"], src: "./assets/gallery/krajobraz.webp" },
+  { keywords: ["napoje", "napój", "napoj", "lemoniad"], src: "./assets/gallery/krajobraz.webp" },
 ];
 
 function findMenuCategoryPhoto(categoryName) {

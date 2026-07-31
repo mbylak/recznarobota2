@@ -50,16 +50,16 @@ const INITIAL_EDITOR_CONTENT = {
     },
     aboutSlider: {
       slide1: {
-        src: "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1400&q=80",
-        alt: "Burger serwowany w restauracji",
+        src: "./assets/gallery/kotlety.webp",
+        alt: "Kotlet schabowy z ziemniakami i kapustą zasmażaną",
       },
       slide2: {
-        src: "https://images.unsplash.com/photo-1520072959219-c595dc870360?auto=format&fit=crop&w=1200&q=80",
-        alt: "Kolorowa sałatka podana w misce",
+        src: "./assets/gallery/mniam.webp",
+        alt: "Grillowana pierś z kurczaka z frytkami i surówką",
       },
       slide3: {
-        src: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1200&q=80",
-        alt: "Pizza z dodatkami podana na drewnianym blacie",
+        src: "./assets/gallery/pizza1.webp",
+        alt: "Pizza z szynką, pieczarkami i rukolą",
       },
     },
     menu: {
@@ -87,8 +87,8 @@ const INITIAL_EDITOR_CONTENT = {
   },
   about: {
     media: {
-      heroImageSrc: "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1400&q=80",
-      heroImageAlt: "Danie serwowane w Ręczna Robota 2.0 Wodnik",
+      heroImageSrc: "./assets/gallery/mniam.webp",
+      heroImageAlt: "Grillowana pierś z kurczaka serwowana w Ręczna Robota 2.0 Wodnik",
     },
     intro: {
       eyebrow: "Ręczna Robota 2.0 Wodnik",
@@ -248,7 +248,7 @@ const INITIAL_BLOG = [
     summary: "Sprawdź, które lemoniady królują w tym sezonie i z czym najlepiej je łączyć z naszego menu.",
     date: "16 maja 2026",
     status: "Aktualności",
-    image: "https://images.unsplash.com/photo-1523362628745-0c100150b504?auto=format&fit=crop&w=600&q=80"
+    image: "./assets/gallery/krajobraz.webp"
   }
 ];
 
@@ -258,21 +258,12 @@ const INITIAL_MESSAGES = [
 ];
 
 const INITIAL_GALLERY = [
-  "./assets/gallery/photo-01.webp",
-  "./assets/gallery/photo-02.webp",
-  "./assets/gallery/photo-03.webp",
-  "./assets/gallery/photo-04.webp",
-  "./assets/gallery/photo-05.webp",
-  "./assets/gallery/photo-06.webp",
-  "./assets/gallery/photo-07.webp",
-  "./assets/gallery/photo-08.webp",
-  "./assets/gallery/photo-09.webp",
-  "./assets/gallery/photo-10.webp",
-  "./assets/gallery/photo-11.webp",
-  "./assets/gallery/photo-12.webp",
-  "./assets/gallery/photo-13.webp",
-  "./assets/gallery/photo-14.webp",
-  "./assets/gallery/photo-15.webp"
+  "./assets/gallery/krajobraz.webp",
+  "./assets/gallery/kotlety.webp",
+  "./assets/gallery/pizza1.webp",
+  "./assets/gallery/mniam.webp",
+  "./assets/gallery/pizza2.webp",
+  "./assets/gallery/jaja.webp"
 ];
 
 const splitLegacyItemName = (rawName = '') => {
@@ -1365,7 +1356,7 @@ function BlogTab({ blog, setBlog }) {
       summary: fd.get('summary'),
       status: fd.get('status'),
       date: fd.get('date'),
-      image: fd.get('image') || "https://images.unsplash.com/photo-1520072959219-c595dc870360?auto=format&fit=crop&w=600&q=80"
+      image: fd.get('image') || "./assets/gallery/kotlety.webp"
     };
 
     if (editingPost.id) {
