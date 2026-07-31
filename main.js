@@ -197,6 +197,15 @@ function hydrateGalleryFromStorage() {
     const validUrls = parsed.filter(
       (url) => typeof url === "string" && url.trim().length > 0 && !LEGACY_GALLERY_URL_PATTERN.test(url),
     );
+
+    // Trwale usuń przestarzałe wpisy, żeby stary skrypt z cache ich nie wyrenderował.
+    if (validUrls.length !== parsed.length) {
+      if (validUrls.length === 0) {
+        window.localStorage.removeItem(CMS_GALLERY_KEY);
+      } else {
+        window.localStorage.setItem(CMS_GALLERY_KEY, JSON.stringify(validUrls));
+      }
+    }
     if (validUrls.length === 0) return;
 
     const galleryItemsMarkup = validUrls
