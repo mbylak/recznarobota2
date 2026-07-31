@@ -134,8 +134,8 @@
       date: "9 czerwca 2026",
       status: "wydarzenia",
       href: "./blog/wieczory-muzyczne-w-porcie-wodnik.html",
-      image: "./assets/gallery/krajobraz.webp",
-      imageAlt: "Widok na wodę i zieleń przy porcie",
+      image: "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=800&q=75",
+      imageAlt: "Taras lokalu nad wodą o zmierzchu",
     },
     {
       id: "blog-grill",
@@ -144,8 +144,8 @@
       date: "6 czerwca 2026",
       status: "kuchnia",
       href: "./blog/grillowane-specjaly-nad-zegrzem.html",
-      image: "./assets/gallery/mniam.webp",
-      imageAlt: "Grillowana pierś z kurczaka z frytkami i surówką",
+      image: "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=800&q=75",
+      imageAlt: "Apetyczne danie serwowane w restauracji",
     },
     {
       id: "blog-zachody-slonca",
@@ -154,8 +154,8 @@
       date: "30 maja 2026",
       status: "przewodnik",
       href: "./blog/zachody-slonca-nad-zalewem-zegrzynskim.html",
-      image: "./assets/gallery/krajobraz.webp",
-      imageAlt: "Spokojna woda i niebo nad zalewem",
+      image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=75",
+      imageAlt: "Złota godzina nad wodą o zachodzie słońca",
     },
     {
       id: "blog-aktywny-weekend",
@@ -164,8 +164,8 @@
       date: "23 maja 2026",
       status: "przewodnik",
       href: "./blog/aktywny-weekend-w-porcie-wodnik.html",
-      image: "./assets/gallery/krajobraz.webp",
-      imageAlt: "Zielony brzeg jeziora",
+      image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=800&q=75",
+      imageAlt: "Zielona ścieżka spacerowa przy jeziorze",
     },
     {
       id: "blog-lemoniady",
@@ -174,8 +174,8 @@
       date: "16 maja 2026",
       status: "aktualności",
       href: "./blog/sezonowe-lemoniady-2026.html",
-      image: "./assets/gallery/pizza2.webp",
-      imageAlt: "Pizza na drewnianym stole w letnim klimacie",
+      image: "https://images.unsplash.com/photo-1523362628745-0c100150b504?auto=format&fit=crop&w=800&q=75",
+      imageAlt: "Kolorowe lemoniady podane z lodem i miętą",
     },
     {
       id: "blog-kuchnia",
@@ -184,8 +184,8 @@
       date: "12 maja 2026",
       status: "kuchnia",
       href: "./blog/kulisy-kuchni-reczna-robota.html",
-      image: "./assets/gallery/kotlety.webp",
-      imageAlt: "Gotowe dania z kuchni Ręczna Robota 2.0",
+      image: "https://images.unsplash.com/photo-1556911073-38141963c9e0?auto=format&fit=crop&w=800&q=75",
+      imageAlt: "Kucharz przygotowujący danie na kuchni restauracyjnej",
     },
     {
       id: "blog-weekend",
@@ -194,8 +194,8 @@
       date: "8 maja 2026",
       status: "przewodnik",
       href: "./blog/weekend-nad-zegrzem-plan-dnia.html",
-      image: "./assets/gallery/krajobraz.webp",
-      imageAlt: "Krajobraz nad wodą w słoneczny dzień",
+      image: "https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&w=800&q=75",
+      imageAlt: "Widok na molo nad jeziorem w słoneczny dzień",
     },
   ];
 
@@ -424,7 +424,7 @@
       article.className = "blog-teaser-card";
       const imageSrc = typeof post.image === "string" && post.image.trim().length > 0
         ? post.image
-        : "./assets/gallery/kotlety.webp";
+        : "https://images.unsplash.com/photo-1520072959219-c595dc870360?auto=format&fit=crop&w=800&q=75";
       const imageAlt = typeof post.imageAlt === "string" && post.imageAlt.trim().length > 0
         ? post.imageAlt
         : `Zdjęcie podglądowe artykułu: ${post.title}`;
@@ -433,11 +433,16 @@
         : `./blog/${post.id || "artykul"}.html`;
       article.innerHTML = `
         <a class="blog-teaser-link" href="${href}">
-          <img class="blog-teaser-image" src="${imageSrc}" alt="${imageAlt}" loading="lazy">
-          <p class="blog-teaser-meta">${post.status || "aktualności"}${post.date ? ` · ${post.date}` : ""}</p>
-          <h3>${post.title}</h3>
-          <p>${post.summary}</p>
-          <span class="blog-teaser-readmore">Czytaj artykuł</span>
+          <div class="blog-teaser-media">
+            <img class="blog-teaser-image" src="${imageSrc}" alt="${imageAlt}" loading="lazy">
+            <span class="blog-teaser-badge">${post.status || "aktualności"}</span>
+          </div>
+          <div class="blog-teaser-body">
+            ${post.date ? `<p class="blog-teaser-meta">${post.date}</p>` : ""}
+            <h3>${post.title}</h3>
+            <p>${post.summary}</p>
+            <span class="blog-teaser-readmore">Czytaj artykuł <span class="blog-teaser-readmore-arrow" aria-hidden="true">&rarr;</span></span>
+          </div>
         </a>
       `;
       list.appendChild(article);

@@ -248,7 +248,7 @@ const INITIAL_BLOG = [
     summary: "Sprawdź, które lemoniady królują w tym sezonie i z czym najlepiej je łączyć z naszego menu.",
     date: "16 maja 2026",
     status: "Aktualności",
-    image: "./assets/gallery/krajobraz.webp"
+    image: "https://images.unsplash.com/photo-1523362628745-0c100150b504?auto=format&fit=crop&w=600&q=80"
   }
 ];
 
@@ -1356,7 +1356,7 @@ function BlogTab({ blog, setBlog }) {
       summary: fd.get('summary'),
       status: fd.get('status'),
       date: fd.get('date'),
-      image: fd.get('image') || "./assets/gallery/kotlety.webp"
+      image: fd.get('image') || "https://images.unsplash.com/photo-1520072959219-c595dc870360?auto=format&fit=crop&w=600&q=80"
     };
 
     if (editingPost.id) {
