@@ -14,6 +14,9 @@ const GALLERY_FALLBACK_IMAGES = [
   "./assets/gallery/pizza2.webp",
   "./assets/gallery/jaja.webp",
 ];
+// Stare pliki galerii (photo-01..15.webp) zostały usunięte z repo; wpisy CMS,
+// które nadal na nie wskazują, trzeba odfiltrować, inaczej galeria będzie pusta.
+const LEGACY_GALLERY_URL_PATTERN = /assets\/gallery\/photo-\d{2}\.webp/i;
 
 function escapeHtml(value) {
   return String(value)
@@ -191,8 +194,12 @@ function hydrateGalleryFromStorage() {
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed) || parsed.length === 0) return;
 
-    const galleryItemsMarkup = parsed
-      .filter((url) => typeof url === "string" && url.trim().length > 0)
+    const validUrls = parsed.filter(
+      (url) => typeof url === "string" && url.trim().length > 0 && !LEGACY_GALLERY_URL_PATTERN.test(url),
+    );
+    if (validUrls.length === 0) return;
+
+    const galleryItemsMarkup = validUrls
       .map((url, index) => `
         <img
           class="gallery-item js-gallery-item"

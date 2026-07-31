@@ -306,6 +306,35 @@ const setByPath = (target, path, value) => {
   });
 };
 
+// Stare pliki galerii (photo-01..15.webp) i stockowe URL-e slidera zostały
+// zastąpione autentycznymi zdjęciami; dane wczytane z localStorage/chmury
+// mogą jeszcze na nie wskazywać, więc czyścimy je przy starcie panelu.
+const LEGACY_GALLERY_URL_PATTERN = /assets\/gallery\/photo-\d{2}\.webp/i;
+
+const sanitizeGallery = (value) => {
+  const list = Array.isArray(value)
+    ? value.filter((url) => typeof url === 'string' && url.trim().length > 0 && !LEGACY_GALLERY_URL_PATTERN.test(url))
+    : [];
+  return list.length ? list : INITIAL_GALLERY;
+};
+
+const LEGACY_EDITOR_IMAGE_PATHS = [
+  ['index.aboutSlider.slide1.src', 'index.aboutSlider.slide1.alt'],
+  ['index.aboutSlider.slide2.src', 'index.aboutSlider.slide2.alt'],
+  ['index.aboutSlider.slide3.src', 'index.aboutSlider.slide3.alt'],
+  ['about.media.heroImageSrc', 'about.media.heroImageAlt'],
+];
+
+const sanitizeEditorImages = (content) => {
+  LEGACY_EDITOR_IMAGE_PATHS.forEach(([srcPath, altPath]) => {
+    const storedSrc = getByPath(content, srcPath);
+    if (typeof storedSrc !== 'string' || !storedSrc.includes('images.unsplash.com')) return;
+    setByPath(content, srcPath, getByPath(INITIAL_EDITOR_CONTENT, srcPath));
+    setByPath(content, altPath, getByPath(INITIAL_EDITOR_CONTENT, altPath));
+  });
+  return content;
+};
+
 const getItemDisplayParts = (item) => {
   const title = String(item?.name || '').trim();
   const subtitle = typeof item?.subtitle === 'string' ? item.subtitle.trim() : '';
@@ -340,11 +369,11 @@ export default function CMSAdminApp() {
       }
     };
     loadData('rr2_cms_settings', setContent, INITIAL_CONTENT);
-    loadData('rr2_cms_content_v1', (value) => setEditorContent(deepMerge(INITIAL_EDITOR_CONTENT, value || {})), INITIAL_EDITOR_CONTENT);
+    loadData('rr2_cms_content_v1', (value) => setEditorContent(sanitizeEditorImages(deepMerge(INITIAL_EDITOR_CONTENT, value || {}))), INITIAL_EDITOR_CONTENT);
     loadData('rr2_cms_menu_v2', setMenu, INITIAL_MENU);
     loadData('rr2_cms_blog_v1', setBlog, INITIAL_BLOG);
     loadData('rr2_cms_messages', setMessages, INITIAL_MESSAGES);
-    loadData('rr2_cms_gallery', setGallery, INITIAL_GALLERY);
+    loadData('rr2_cms_gallery', (value) => setGallery(sanitizeGallery(value)), INITIAL_GALLERY);
   }, []);
 
   // Zapisywanie do localStorage

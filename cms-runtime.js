@@ -230,6 +230,37 @@
     }
   }
 
+  // Slider "O nas" i zdjęcie hero na podstronie O nas korzystają teraz z lokalnych,
+  // autentycznych zdjęć. Dane CMS zapisane wcześniej (localStorage / chmura) wciąż
+  // wskazują na stockowe URL-e Unsplash - podmieniamy je na aktualne wartości domyślne.
+  const LEGACY_IMAGE_PATHS = [
+    ["index.aboutSlider.slide1.src", "index.aboutSlider.slide1.alt"],
+    ["index.aboutSlider.slide2.src", "index.aboutSlider.slide2.alt"],
+    ["index.aboutSlider.slide3.src", "index.aboutSlider.slide3.alt"],
+    ["about.media.heroImageSrc", "about.media.heroImageAlt"],
+  ];
+
+  function setByPath(object, path, value) {
+    const segments = path.split(".");
+    let cursor = object;
+    for (let i = 0; i < segments.length - 1; i += 1) {
+      if (!isObject(cursor[segments[i]])) return;
+      cursor = cursor[segments[i]];
+    }
+    cursor[segments[segments.length - 1]] = value;
+  }
+
+  function sanitizeLegacyImages(content) {
+    if (!isObject(content)) return content;
+    LEGACY_IMAGE_PATHS.forEach(([srcPath, altPath]) => {
+      const storedSrc = getByPath(content, srcPath);
+      if (typeof storedSrc !== "string" || !storedSrc.includes("images.unsplash.com")) return;
+      setByPath(content, srcPath, getByPath(DEFAULT_CONTENT, srcPath));
+      setByPath(content, altPath, getByPath(DEFAULT_CONTENT, altPath));
+    });
+    return content;
+  }
+
   function readLocalContent() {
     try {
       const localRaw = window.localStorage.getItem(CMS_CONTENT_KEY);
@@ -237,7 +268,7 @@
       const baseContent = localContent ? deepMerge(DEFAULT_CONTENT, localContent) : DEFAULT_CONTENT;
       const settingsRaw = window.localStorage.getItem(CMS_SETTINGS_KEY);
       const settings = settingsRaw ? JSON.parse(settingsRaw) : null;
-      return mergeLegacySettings(baseContent, settings);
+      return sanitizeLegacyImages(mergeLegacySettings(baseContent, settings));
     } catch (error) {
       return DEFAULT_CONTENT;
     }
@@ -299,7 +330,7 @@
         window.localStorage.setItem(CMS_SETTINGS_KEY, JSON.stringify(cloudSettings));
       }
 
-      return mergeLegacySettings(baseContent, cloudSettings);
+      return sanitizeLegacyImages(mergeLegacySettings(baseContent, cloudSettings));
     } catch (error) {
       return DEFAULT_CONTENT;
     }
