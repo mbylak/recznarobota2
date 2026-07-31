@@ -22,7 +22,7 @@ const INITIAL_CONTENT = {
     phone: "+48 537 961 666",
     email: "kontakt@recznarobota2.pl",
     address: "Port Wodnik, ul. Zegrzyńska 10, 05-126 Nieporęt",
-    facebook: "/recznarobota2.wodnik"
+    facebook: "https://www.facebook.com/profile.php?id=61577435373395"
   },
   alert: {
     active: false,
@@ -1597,7 +1597,7 @@ function SettingsTab({ content, setContent }) {
              </div>
              <div>
                <label className="form-label">Link do Facebooka</label>
-               <input type="text" value={content.contact.facebook} onChange={(e) => handleChange('contact', 'facebook', e.target.value)} className="form-input" placeholder="np. /recznarobota2.wodnik" />
+               <input type="text" value={content.contact.facebook} onChange={(e) => handleChange('contact', 'facebook', e.target.value)} className="form-input" placeholder="https://www.facebook.com/profile.php?id=61577435373395" />
              </div>
           </div>
         </div>
